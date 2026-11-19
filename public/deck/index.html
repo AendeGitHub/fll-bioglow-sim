@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promoting FIRST — URAN 92</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#00794E; --g2:#2AA250; --lime:#5CCB4A; --soft:#EAF6EE; --soft2:#D4EEDC;
+  --ink:#0F1A14; --mut:#5B6660; --line:#DCE7E0; --bg:#FFFFFF;
+  --red:#E5322D; --blue:#2D5BE3; --org:#FF7A1A; --yel:#FFC83D; --pur:#7B4DE0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0B1410;overflow:hidden;font-family:Manrope,Arial,sans-serif;color:var(--ink)}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;background:var(--bg);overflow:hidden;opacity:0;pointer-events:none;transition:opacity .35s}
+.slide.on{opacity:1;pointer-events:auto}
+.slide .logo{position:absolute;right:42px;top:30px;width:118px}
+.slide .pn{position:absolute;right:0;bottom:0;width:130px;height:96px;background:var(--g2);border-top-left-radius:70px;color:#fff;font:800 34px Montserrat;display:flex;align-items:center;justify-content:center;padding:14px 0 0 20px}
+.kick{font:700 22px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--g2)}
+h1{font:900 76px/1.02 Montserrat;letter-spacing:-.01em}
+h2{font:800 60px/1.06 Montserrat;letter-spacing:-.01em}
+h3{font:800 32px/1.15 Montserrat}
+p,li{font-size:28px;line-height:1.4}
+.mut{color:var(--mut)}
+.g{color:var(--g2)} .dg{color:var(--g)}
+.pad{position:absolute;left:96px;right:96px;top:84px;bottom:84px}
+.head{display:flex;flex-direction:column;gap:12px;max-width:1500px}
+.card{background:#fff;border:2px solid var(--line);border-radius:28px;padding:30px}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;background:var(--soft);color:var(--g);font:700 22px Manrope}
+.photo{border-radius:28px;overflow:hidden;background:var(--soft)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.row{display:flex;gap:28px}
+.big{font:900 120px/1 Montserrat;color:var(--g2);letter-spacing:-.03em}
+.src{position:absolute;left:96px;bottom:34px;font:500 17px 'JetBrains Mono',monospace;color:#8A958F}
+.ico{width:64px;height:64px;border-radius:18px;background:var(--soft);display:flex;align-items:center;justify-content:center;flex:none}
+.ico svg{width:38px;height:38px;stroke:var(--g);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.tap{cursor:pointer}
+/* video */
+.video{position:relative;border-radius:28px;overflow:hidden;background:#0F1A14;cursor:pointer}
+.video img.th{width:100%;height:100%;object-fit:cover;display:block;opacity:.92}
+.video .play{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:var(--g2);box-shadow:0 10px 40px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.video:hover .play{transform:scale(1.07)}
+.video .play:after{content:"";border-left:46px solid #fff;border-top:28px solid transparent;border-bottom:28px solid transparent;margin-left:12px}
+.video .cap{position:absolute;left:0;right:0;bottom:0;padding:60px 30px 24px;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font:700 26px Manrope}
+.video .cap b{display:block;font:700 18px 'JetBrains Mono';color:#9BE7A9;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.qr{background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px;text-align:center}
+.qr img{width:100%;display:block}
+.qr span{display:block;font:700 16px 'JetBrains Mono';color:var(--g);margin-top:6px;letter-spacing:.04em}
+/* ui */
+#bar{position:fixed;left:0;bottom:0;height:5px;background:var(--lime);transition:width .3s;z-index:5}
+#hint{position:fixed;left:14px;bottom:12px;font:500 12px 'JetBrains Mono';color:#7E8C84;z-index:5;opacity:.7}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(10,20,15,.94);color:#E8F5EC;font:500 18px/1.5 Manrope;padding:18px 26px 24px;z-index:6;display:none;border-top:3px solid var(--lime)}
+#notes b{color:var(--lime)}
+body.shownotes #notes{display:block}
+/* counters / anim */
+.up{opacity:0;transform:translateY(24px);transition:opacity .5s, transform .5s}
+.slide.on .up{opacity:1;transform:none}
+.slide.on .up.d1{transition-delay:.12s}.slide.on .up.d2{transition-delay:.24s}.slide.on .up.d3{transition-delay:.36s}.slide.on .up.d4{transition-delay:.48s}.slide.on .up.d5{transition-delay:.6s}
+.flip{perspective:1000px}
+.flip .in{position:relative;transition:transform .6s;transform-style:preserve-3d;height:100%}
+.flip.open .in{transform:rotateY(180deg)}
+.flip .fa,.flip .fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:28px;padding:34px;display:flex;flex-direction:column;justify-content:center}
+.flip .fb{transform:rotateY(180deg)}
+@media print{html,body{overflow:visible;background:#fff}#stage{position:static;transform:none!important}.slide{position:relative;opacity:1;page-break-after:always;width:1920px;height:1080px}#bar,#hint,#notes{display:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 01 COVER -->
+<section class="slide" data-notes="<b>Старт.</b> Поздоровайтесь и спросите зал: «Поднимите руку, кто хоть раз собирал LEGO? А кто хотел бы, чтобы его робот поехал сам?» Пусть дети поднимут руки — это включает их в разговор с первой минуты.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <img src="img/duck.png" alt="" style="position:absolute;left:0;bottom:0;height:500px">
+  <div style="position:absolute;left:110px;top:110px">
+    <div class="kick up">URAN 92 · FTC #25300 · Алматы</div>
+    <h1 class="up d1" style="font-size:132px;margin-top:20px">PROMOTING<br>FIRST</h1>
+    <h1 class="up d2" style="font-size:132px;color:var(--g2)">URAN TEAM</h1>
+  </div>
+  <div class="up d3" style="position:absolute;right:120px;bottom:150px;text-align:right">
+    <div style="font:800 58px/1.1 Montserrat;color:#4A4A4A">Be part of the<br>FIRST journey</div>
+    <div class="chip" style="margin-top:26px">Почему роботы — это интересно, и как начать</div>
+  </div>
+</section>
+
+<!-- 02 HOOK: question + numbers -->
+<section class="slide" data-notes="<b>Крючок.</b> Спросите: «Как вы думаете, сколько команд приехало на чемпионат Центральной Азии по FTC?» Дайте 2–3 ответа, потом кликните по карточкам — числа откроются. Подчеркните: это школьники, такие же как вы.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Угадай число</div><h2>Февраль 2026, Астана, EXPO.<br>Чемпионат Центральной Азии FIRST</h2></div>
+    <div class="row" style="margin-top:60px">
+      <div class="card flip tap" style="flex:1;height:540px;padding:0;border:0" onclick="this.classList.toggle('open')"><div class="in">
+        <div class="fa" style="background:var(--soft)"><div style="font:900 150px Montserrat;color:var(--g2)">?</div><h3>Сколько команд FTC приехало?</h3><p class="mut" style="margin-top:12px">Нажми, чтобы узнать</p></div>
+        <div class="fb" style="background:var(--g2);color:#fff"><div class="cnt" data-to="79" style="font:900 170px/1 Montserrat">79</div><h3>команд FTC — школьники 12–18 лет</h3></div></div></div>
+      <div class="card flip tap" style="flex:1;height:540px;padding:0;border:0" onclick="this.classList.toggle('open')"><div class="in">
+        <div class="fa" style="background:var(--soft)"><div style="font:900 150px Montserrat;color:var(--g2)">?</div><h3>Сколько матчей сыграли в одном дивизионе?</h3><p class="mut" style="margin-top:12px">Нажми, чтобы узнать</p></div>
+        <div class="fb" style="background:var(--g);color:#fff"><div style="font:900 170px/1 Montserrat">87</div><h3>матчей в дивизионе Janibek за 4 дня</h3></div></div></div>
+      <div class="card flip tap" style="flex:1;height:540px;padding:0;border:0" onclick="this.classList.toggle('open')"><div class="in">
+        <div class="fa" style="background:var(--soft)"><div style="font:900 150px Montserrat;color:var(--g2)">?</div><h3>Сколько длится один матч?</h3><p class="mut" style="margin-top:12px">Нажми, чтобы узнать</p></div>
+        <div class="fb" style="background:var(--ink);color:#fff"><div style="font:900 170px/1 Montserrat">2:30</div><h3>минуты: 30 сек робот сам + 2 мин управляем</h3></div></div></div>
+    </div>
+    <div class="row" style="margin-top:40px;gap:16px">
+      <span class="chip">10–13 февраля 2026</span><span class="chip">2 дивизиона: Janibek и Kerei</span><span class="chip">Expo International Exhibition Center</span>
+    </div>
+  </div>
+  <div class="src">Источник: ftcscout.org — Kazakhstan Central Asia Championship 2026</div>
+  <div class="pn"></div>
+</section>
+
+<!-- 03 WHO WE ARE -->
+<section class="slide" data-notes="<b>Кто мы.</b> Коротко: мы такие же школьники. Покажите фото и расскажите про три роли: кто строит, кто программирует, кто рассказывает о команде. Спросите: «А кем бы ты был в команде?»">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad" style="display:grid;grid-template-columns:1.15fr 1fr;gap:60px">
+    <div class="photo up" style="height:100%"><img src="img/team.jpg" alt="Команда URAN 92"></div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:22px">
+      <div class="kick up">Знакомьтесь</div>
+      <h2 class="up d1">URAN 92 — команда школьников</h2>
+      <p class="mut up d2">Мы проектируем, собираем и программируем роботов для международных соревнований FIRST Tech Challenge — и помогаем другим ребятам начать.</p>
+      <div class="up d3" style="display:grid;grid-template-columns:1fr;gap:16px;margin-top:10px">
+        <div class="card" style="display:flex;gap:22px;align-items:center;padding:22px"><div class="ico"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.8-.6-.6-2.8z"/></svg></div><div><h3>Инженеры</h3><p class="mut" style="font-size:24px">придумывают и строят робота</p></div></div>
+        <div class="card" style="display:flex;gap:22px;align-items:center;padding:22px"><div class="ico"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><div><h3>Программисты</h3><p class="mut" style="font-size:24px">учат робота думать и ездить сам</p></div></div>
+        <div class="card" style="display:flex;gap:22px;align-items:center;padding:22px"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1zM16 8a5 5 0 0 1 0 8M19 5a9 9 0 0 1 0 14"/></svg></div><div><h3>Inspire</h3><p class="mut" style="font-size:24px">рассказывают о команде и учат других</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 04 ACHIEVEMENTS -->
+<section class="slide" data-notes="<b>Доказательства.</b> Это не просто слова — это реальные турниры. Покажите на карте: США, Дубай, Корея, Китай. Потом нижнюю полосу: результаты в Казахстане этого сезона. Можно сказать: «Все результаты можно проверить на сайте ftcscout.org».">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Наши достижения</div><h2>Мы уже выступали в 4 странах</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px">
+      <div class="card up" style="text-align:center"><img src="img/us.jpg" style="height:150px;max-width:100%;object-fit:contain"><div class="big" style="font-size:96px;margin-top:10px">3</div><h3>место</h3><p class="mut" style="font-size:22px;margin-top:8px">Robo Tourney 2025 — SoCal,<br>Лос-Анджелес, США</p></div>
+      <div class="card up d1" style="text-align:center"><img src="img/ae.jpg" style="height:150px;max-width:100%;object-fit:contain"><div class="big" style="font-size:96px;margin-top:10px">1</div><h3>Inspire Award</h3><p class="mut" style="font-size:22px;margin-top:8px">FIRST Off-Season 2025,<br>Дубай, ОАЭ</p></div>
+      <div class="card up d2" style="text-align:center"><img src="img/kr.png" style="height:150px;max-width:100%;object-fit:contain"><div class="big" style="font-size:96px;margin-top:10px">4</div><h3>место в квалификации</h3><p class="mut" style="font-size:22px;margin-top:8px">FIRST Global Challenge 2026,<br>Инчхон — из 185 стран</p></div>
+      <div class="card up d3" style="text-align:center"><img src="img/cn.jpg" style="height:150px;max-width:100%;object-fit:contain"><div class="big" style="font-size:96px;margin-top:10px">1</div><h3>Connect Award</h3><p class="mut" style="font-size:22px;margin-top:8px">World Robot Contest 2025,<br>Ханьян, Китай</p></div>
+    </div>
+    <div class="up d4" style="margin-top:30px;background:var(--soft);border-radius:28px;padding:26px 34px;display:flex;align-items:center;gap:40px">
+      <div class="kick" style="flex:none">Сезон 2025/26<br>в Казахстане</div>
+      <div style="display:flex;gap:40px;flex:1">
+        <div><h3 class="dg">1 место</h3><p style="font-size:22px">Mangystau Regional + Control Award</p></div>
+        <div><h3 class="dg">Control Award</h3><p style="font-size:22px">Daryn Qualifier</p></div>
+        <div><h3 class="dg">Innovate Award</h3><p style="font-size:22px">Almaty Tech Cup XII</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Казахстан: ftcscout.org/teams/25300</div>
+  <div class="pn"></div>
+</section>
+
+<!-- 05 WHAT IS FIRST: acronym -->
+<section class="slide" data-notes="<b>Что такое FIRST.</b> Разберите название по буквам — кликайте по буквам, они открываются по очереди. Главная мысль: FIRST — это не только роботы, а команда, дружба и уверенность в себе.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Что такое FIRST</div><h2>Пять букв — одна большая идея</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:22px;margin-top:56px">
+      <div class="flip tap" style="height:380px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--g2);color:#fff;align-items:center"><div style="font:900 190px Montserrat">F</div></div><div class="fb" style="background:var(--soft)"><h3>For</h3><p class="mut">«для» — для всех школьников</p></div></div></div>
+      <div class="flip tap" style="height:380px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--g);color:#fff;align-items:center"><div style="font:900 190px Montserrat">I</div></div><div class="fb" style="background:var(--soft)"><h3>Inspiration</h3><p class="mut">вдохновение — загореться идеей</p></div></div></div>
+      <div class="flip tap" style="height:380px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--g2);color:#fff;align-items:center"><div style="font:900 190px Montserrat">R</div></div><div class="fb" style="background:var(--soft)"><h3>Recognition</h3><p class="mut">признание — твою работу видят</p></div></div></div>
+      <div class="flip tap" style="height:380px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--g);color:#fff;align-items:center"><div style="font:900 190px Montserrat">S</div></div><div class="fb" style="background:var(--soft)"><h3>Science</h3><p class="mut">наука — физика, математика</p></div></div></div>
+      <div class="flip tap" style="height:380px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--g2);color:#fff;align-items:center"><div style="font:900 190px Montserrat">T</div></div><div class="fb" style="background:var(--soft)"><h3>Technology</h3><p class="mut">технологии — роботы и код</p></div></div></div>
+    </div>
+    <div class="up d2" style="display:flex;gap:30px;align-items:center;margin-top:46px">
+      <img src="img/first-logo.png" style="height:120px">
+      <p style="max-width:1150px">Международная программа, где школьники со всего мира строят роботов, учатся работать в команде и выходят на мировой уровень.</p>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 06 AGE FINDER (interactive) -->
+<section class="slide" data-notes="<b>Интерактив.</b> Позовите одного ребёнка: «Сколько тебе лет?» Передвиньте ползунок на его возраст — загорится его лига. Повторите с 2–3 детьми разного возраста. Так каждый сразу видит, куда он может пойти.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Найди свою лигу</div><h2>Сколько тебе лет?</h2></div>
+    <div style="display:flex;align-items:center;gap:36px;margin-top:10px;position:absolute;right:0;top:0">
+      <div class="mut" style="font:700 26px Manrope">тебе</div><div id="ageV" style="font:900 120px/1 Montserrat;color:var(--g2)">10</div><div class="mut" style="font:700 26px Manrope">лет</div></div>
+    <div style="display:flex;align-items:center;gap:36px;margin-top:50px">
+      <div style="flex:1">
+        <input id="age" type="range" min="4" max="18" value="10" style="width:100%;margin:0;accent-color:#2AA250;height:40px">
+        <div style="display:flex;justify-content:space-between;font:700 22px 'JetBrains Mono';color:var(--mut)"><span>4</span><span>6</span><span>8</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span></div>
+      </div>
+    </div>
+    <div id="leagues" style="position:relative;height:520px;margin-top:50px">
+      <!-- bars positioned on 4..18 scale -->
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 07 FLL overview: 3 levels -->
+<section class="slide" data-notes="<b>FIRST LEGO League.</b> Три ступеньки, как в школе: младшие играют и строят, средние делают первые модели с мотором, старшие собирают настоящего робота на поле. Покажите по фото, чем они отличаются.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">FIRST LEGO League</div><h2>Три ступеньки — от игры до настоящего робота</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px">
+      <div class="up"><div class="photo" style="height:400px"><img src="img/flld.jpg"></div><div style="display:flex;align-items:center;gap:14px;margin-top:22px"><span class="chip" style="background:#F1E6FF;color:var(--pur)">4–6 лет</span><h3>Discover</h3></div><p class="mut" style="margin-top:8px">Играем с крупным LEGO DUPLO и придумываем решения вместе.</p></div>
+      <div class="up d1"><div class="photo" style="height:400px"><img src="img/flle.jpg"></div><div style="display:flex;align-items:center;gap:14px;margin-top:22px"><span class="chip" style="background:#E3F0FF;color:var(--blue)">6–10 лет</span><h3>Explore</h3></div><p class="mut" style="margin-top:8px">Строим модель, которая двигается, и показываем свой проект.</p></div>
+      <div class="up d2"><div class="photo" style="height:400px"><img src="img/fllc.jpg"></div><div style="display:flex;align-items:center;gap:14px;margin-top:22px"><span class="chip" style="background:#FFEBDD;color:var(--org)">9–16 лет</span><h3>Challenge</h3></div><p class="mut" style="margin-top:8px">Собираем и программируем робота, который сам выполняет задания.</p></div>
+    </div>
+    <div class="up d3" style="display:flex;align-items:center;gap:20px;margin-top:30px"><svg width="60" height="20" viewBox="0 0 60 20"><path d="M0 10h52M44 2l8 8-8 8" stroke="#2AA250" stroke-width="4" fill="none"/></svg><p style="font-weight:700">Каждая ступенька готовит к следующей — а потом к FTC.</p></div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 08 FLL Challenge field + size infographic -->
+<section class="slide" data-notes="<b>Поле FLL.</b> Покажите размер поля на схеме: это примерно как два школьных стола. На поле стоят модели-миссии — робот должен их выполнить за 2,5 минуты. Кликните по видео, чтобы показать, как выглядят миссии сезона BIOGLOW.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad" style="display:grid;grid-template-columns:1fr 1fr;gap:56px">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div class="kick">FLL Challenge · поле</div>
+      <h2>Поле с заданиями — миссиями</h2>
+      <img src="img/fll-field.png" style="width:100%;height:330px;object-fit:contain">
+      <div class="card" style="padding:24px 28px">
+        <div style="display:flex;gap:30px;align-items:flex-end">
+          <div><div class="kick" style="color:var(--mut)">Размер поля</div><div style="font:900 52px Montserrat" class="g">≈ 2,4 × 1,1 м</div></div>
+          <svg width="280" height="110" viewBox="0 0 280 110"><rect x="4" y="16" width="236" height="114" rx="4" transform="scale(1 .75)" fill="#EAF6EE" stroke="#2AA250" stroke-width="3"/><rect x="186" y="50" width="38" height="38" fill="#FFC83D" stroke="#0F1A14" stroke-width="2"/><text x="205" y="105" font-size="13" text-anchor="middle" font-family="Manrope" fill="#5B6660">робот</text></svg>
+        </div>
+        <div style="display:flex;gap:30px;margin-top:14px"><div><b style="font:900 40px Montserrat">2:30</b><p class="mut" style="font-size:20px">на все миссии</p></div><div><b style="font:900 40px Montserrat">0</b><p class="mut" style="font-size:20px">пульта: робот едет сам</p></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:24px;justify-content:center">
+      <div class="video" data-id="wiVSrUVilXc" data-start="0" style="height:470px"><img class="th" src="https://i.ytimg.com/vi/wiVSrUVilXc/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Видео · USTEM Foundation</b>Миссии игры роботов BIOGLOW, на русском</div></div>
+      <div style="display:flex;gap:24px;align-items:center">
+        <div class="qr" style="width:190px"><img src="img/qr-sim.svg"><span>СИМУЛЯТОР</span></div>
+        <p style="font-size:24px">Попробуй сам: наш онлайн-симулятор поля BIOGLOW — программируй робота прямо в браузере.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 09 FLL robot labelled -->
+<section class="slide" data-notes="<b>Робот FLL.</b> Игра «найди на картинке»: попросите детей показать мозг робота (хаб), его мышцы (моторы) и глаза (датчики). Кликните по номеру — подсветится подсказка.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+    <div style="position:relative">
+      <img src="img/fll-robot.jpg" style="width:100%;height:100%;object-fit:contain">
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:22px">
+      <div class="kick">FLL Challenge · робот</div>
+      <h2>Робот — как человек</h2>
+      <p class="mut">У него есть всё, что есть у нас, только из LEGO.</p>
+      <div class="card tap up d1" style="display:flex;gap:22px;align-items:center" onclick="this.style.background='#EAF6EE'"><div class="big" style="font-size:64px;width:70px">🧠</div><div><h3>Мозг — хаб</h3><p class="mut" style="font-size:24px">жёлтый блок сверху: в нём живёт программа</p></div></div>
+      <div class="card tap up d2" style="display:flex;gap:22px;align-items:center" onclick="this.style.background='#EAF6EE'"><div class="big" style="font-size:64px;width:70px">💪</div><div><h3>Мышцы — моторы</h3><p class="mut" style="font-size:24px">крутят колёса и двигают захват</p></div></div>
+      <div class="card tap up d3" style="display:flex;gap:22px;align-items:center" onclick="this.style.background='#EAF6EE'"><div class="big" style="font-size:64px;width:70px">👀</div><div><h3>Глаза — датчики</h3><p class="mut" style="font-size:24px">видят цвет линии и расстояние</p></div></div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 10 FTC intro with comparison -->
+<section class="slide" data-notes="<b>FTC.</b> Сравните с FLL на схеме: робот FTC больше, из металла, и у него есть пульт. Играют два на два — союз из двух команд против другого союза. Покажите размеры: робот как большой рюкзак, поле как комната.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">FIRST Tech Challenge · 12–18 лет</div><h2>FLL и FTC: в чём разница?</h2></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:40px">
+      <div class="card" style="border-color:#FFD2B0">
+        <div style="display:flex;align-items:center;gap:16px"><img src="img/logo-fll.png" style="height:64px"></div>
+        <table style="width:100%;margin-top:20px;font-size:26px;border-collapse:collapse">
+          <tr><td class="mut" style="padding:10px 0">Материал</td><td style="font-weight:800">LEGO</td></tr>
+          <tr><td class="mut" style="padding:10px 0">Управление</td><td style="font-weight:800">только программа</td></tr>
+          <tr><td class="mut" style="padding:10px 0">Поле</td><td style="font-weight:800">стол ≈ 2,4 × 1,1 м</td></tr>
+          <tr><td class="mut" style="padding:10px 0">Кто играет</td><td style="font-weight:800">1 команда</td></tr>
+        </table>
+      </div>
+      <div class="card" style="border-color:var(--g2);border-width:3px">
+        <div style="display:flex;align-items:center;gap:16px"><img src="img/logo-ftc.png" style="height:64px"></div>
+        <table style="width:100%;margin-top:20px;font-size:26px;border-collapse:collapse">
+          <tr><td class="mut" style="padding:10px 0">Материал</td><td style="font-weight:800">металл, пластик, 3D-печать</td></tr>
+          <tr><td class="mut" style="padding:10px 0">Управление</td><td style="font-weight:800">программа + пульт</td></tr>
+          <tr><td class="mut" style="padding:10px 0">Поле</td><td style="font-weight:800">≈ 3,6 × 3,6 м — как комната</td></tr>
+          <tr><td class="mut" style="padding:10px 0">Кто играет</td><td style="font-weight:800">2 команды против 2</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="up d2" style="display:flex;align-items:flex-end;gap:60px;margin-top:34px;background:var(--soft);border-radius:28px;padding:24px 40px">
+      <svg width="760" height="210" viewBox="0 0 760 210">
+        <line x1="0" y1="200" x2="760" y2="200" stroke="#0F1A14" stroke-width="2"/>
+        <!-- kid 150 cm -> 180px  (1.2 px/cm) -->
+        <circle cx="70" cy="40" r="20" fill="#0F1A14"/><path d="M70 62v80M70 142l-24 58M70 142l24 58M70 80l-30 40M70 80l30 40" stroke="#0F1A14" stroke-width="12" stroke-linecap="round"/>
+        <text x="70" y="12" font-family="JetBrains Mono" font-weight="700" font-size="16" text-anchor="middle" fill="#5B6660">ты ≈ 150 см</text>
+        <!-- FTC robot 46cm cube -> 55px -->
+        <rect x="200" y="145" width="55" height="55" fill="#2AA250" stroke="#0F1A14" stroke-width="2"/>
+        <text x="228" y="132" font-family="JetBrains Mono" font-weight="700" font-size="16" text-anchor="middle" fill="#00794E">FTC 46 см</text>
+        <!-- FLL robot ~ 25cm -> 30px -->
+        <rect x="320" y="170" width="30" height="30" fill="#FFC83D" stroke="#0F1A14" stroke-width="2"/>
+        <text x="335" y="158" font-family="JetBrains Mono" font-weight="700" font-size="16" text-anchor="middle" fill="#B07C00">FLL</text>
+        <!-- FTC field 366 cm -> 366*1.2=439 px, side view as a line -->
+        <rect x="400" y="190" width="350" height="10" fill="#9BD6A9"/>
+        <text x="575" y="178" font-family="JetBrains Mono" font-weight="700" font-size="16" text-anchor="middle" fill="#00794E">поле FTC ≈ 3,6 м →</text>
+      </svg>
+      <p style="font-size:24px">Робот FTC в начале матча должен влезать в куб <b>18 × 18 × 18 дюймов</b> (≈ 46 см).</p>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 11 FTC match timeline -->
+<section class="slide" data-notes="<b>Как идёт матч.</b> Нажмите «Старт матча» — полоса покажет три части: сначала 30 секунд робот едет САМ по программе, затем 8 секунд пауза, потом 2 минуты ребята управляют пультом. Можно хором считать последние 10 секунд!">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Матч FTC</div><h2>2 минуты 30 секунд, которые решают всё</h2></div>
+    <div style="margin-top:80px;position:relative">
+      <div style="display:flex;height:200px;border-radius:24px;overflow:hidden;font:800 30px Montserrat;color:#fff">
+        <div style="flex:30;background:var(--blue);display:flex;flex-direction:column;justify-content:center;padding:0 26px">0:30<span style="font:600 22px Manrope">Автономный: робот сам</span></div>
+        <div style="flex:8;background:#9AA5A0;display:flex;align-items:center;justify-content:center;font-size:24px">8 с</div>
+        <div style="flex:120;background:var(--g2);display:flex;flex-direction:column;justify-content:center;padding:0 26px">2:00<span style="font:600 22px Manrope">Управляемый период: водители с пультами</span></div>
+      </div>
+      <div id="mbar" style="position:absolute;left:0;top:-14px;width:6px;height:228px;background:var(--ink);border-radius:3px;transition:none"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:30px;margin-top:40px">
+      <button id="mstart" style="font:800 30px Montserrat;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:22px 44px;cursor:pointer">▶ Старт матча</button>
+      <div id="mclock" style="font:900 96px 'JetBrains Mono';color:var(--ink)">2:30</div>
+      <div id="mphase" class="chip" style="font-size:26px">готовы?</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:70px">
+      <div class="card" style="display:flex;gap:18px;align-items:center"><div style="width:36px;height:36px;border-radius:8px;background:var(--red)"></div><div style="width:36px;height:36px;border-radius:8px;background:var(--red)"></div><p><b>Красный союз</b> — 2 команды</p></div>
+      <div class="card" style="text-align:center"><h3>против</h3></div>
+      <div class="card" style="display:flex;gap:18px;align-items:center"><div style="width:36px;height:36px;border-radius:8px;background:var(--blue)"></div><div style="width:36px;height:36px;border-radius:8px;background:var(--blue)"></div><p><b>Синий союз</b> — 2 команды</p></div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 12 FTC field + robot -->
+<section class="slide" data-notes="<b>Поле и наш робот.</b> Слева поле FTC этого сезона, справа наш робот URAN 92 в 3D. Попросите найти на роботе: колёса, номер команды, механизм, который захватывает элементы. Расскажите, что сначала робота рисуют на компьютере, а потом собирают.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">FTC · поле и робот</div><h2>Сначала рисуем в 3D — потом строим</h2></div>
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-top:30px;height:700px">
+      <div class="card" style="display:flex;flex-direction:column"><div class="kick" style="color:var(--mut)">Поле FTC ≈ 3,6 × 3,6 м</div><img src="img/ftc-field.jpg" style="flex:1;width:100%;object-fit:contain;min-height:0"></div>
+      <div class="card" style="display:flex;flex-direction:column;position:relative"><div class="kick" style="color:var(--mut)">Робот URAN 92 · модель в CAD</div><img src="img/ftc-robot.jpg" style="flex:1;width:100%;object-fit:contain;min-height:0">
+        <div style="display:flex;gap:12px;flex-wrap:wrap"><span class="chip">найди колёса</span><span class="chip">найди номер команды</span><span class="chip">найди захват</span></div></div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 13 CENTRAL ASIA video: Janibek -->
+<section class="slide" data-notes="<b>Видео-доказательство.</b> Это настоящая трансляция чемпионата Центральной Азии 2026 с канала USTEM Foundation. Дивизион Janibek — в нём выступала наша команда URAN 92. Кликните по видео; при необходимости промотайте до матча. Кнопки ниже переключают дни. QR — чтобы дети досмотрели дома.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad" style="display:grid;grid-template-columns:1.45fr 1fr;gap:44px">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="kick">Смотрим вживую · USTEM Foundation</div>
+      <h2 style="font-size:52px">Чемпионат Центральной Азии 2026 — дивизион Janibek</h2>
+      <div class="video" id="vJan" data-id="jZl2tIXY-o8" data-start="0" style="height:560px"><img class="th" src="https://i.ytimg.com/vi/jZl2tIXY-o8/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Трансляция · день 1</b>CENTRAL ASIA FIRST CHAMPIONSHIP 2026 / Janibek Division</div></div>
+      <div style="display:flex;gap:14px">
+        <button class="vsw chip tap" style="border:0" data-target="vJan" data-id="jZl2tIXY-o8" data-cap="Трансляция · день 1">День 1</button>
+        <button class="vsw chip tap" style="border:0" data-target="vJan" data-id="_hcWJRmSqL4" data-cap="Трансляция · день 2">День 2</button>
+        <button class="vsw chip tap" style="border:0;background:var(--g2);color:#fff" data-target="vJan" data-id="wbAPxGO-cYY" data-cap="Трансляция · финал">Финал</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px;justify-content:center">
+      <div class="card" style="background:var(--soft);border:0"><div class="big cnt" data-to="39">39</div><h3>команд в дивизионе Janibek</h3></div>
+      <div class="row"><div class="card" style="flex:1"><div style="font:900 64px Montserrat" class="g">87</div><p class="mut" style="font-size:22px">матчей</p></div><div class="card" style="flex:1"><div style="font:900 64px Montserrat" class="g">4</div><p class="mut" style="font-size:22px">дня соревнований</p></div></div>
+      <div class="card" style="display:flex;gap:20px;align-items:center;border-color:var(--g2)"><div class="qr" style="width:150px;padding:8px;border:0"><img src="img/qr-janibek.svg"></div><p style="font-size:22px"><b>На превью дня 1 — наш матч!</b> Квалификация 15: URAN 92 (25300) в красном союзе, победа <b>253 : 43</b>.<br><span class="mut">QR — смотри дома</span></p></div>
+    </div>
+  </div>
+  <div class="src">ftcscout.org · KZCMPJNB2 · youtube.com/@ustem_foundation</div>
+  <div class="pn"></div>
+</section>
+
+<!-- 13b OUR MATCHES -->
+<section class="slide" data-notes="<b>Честная история.</b> Покажите все 8 наших матчей. Мы выиграли один — зато с огромным счётом 253 : 43. А в 24-м матче проиграли будущему чемпиону JelToqSun всего ОДНО очко! Главная мысль для детей: проигрывать не страшно — каждый матч учит, и на следующем турнире ты сильнее.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Наши 8 матчей в дивизионе Janibek</div><h2>Победа 253 : 43 — и всего −1 очко от чемпиона</h2></div>
+    <div id="matches" style="margin-top:44px;display:grid;grid-template-columns:repeat(8,1fr);gap:18px;align-items:end;height:560px"></div>
+    <div style="display:flex;gap:30px;margin-top:22px;align-items:center">
+      <span class="chip"><span style="width:18px;height:18px;border-radius:4px;background:var(--g2);display:inline-block"></span>очки нашего союза</span>
+      <span class="chip" style="background:#F1F1F1;color:#555"><span style="width:18px;height:18px;border-radius:4px;background:#C9CFCB;display:inline-block"></span>очки соперников</span>
+      <p style="font-size:24px;margin-left:auto"><b>Проигрывать не страшно</b> — каждый матч учит.</p>
+    </div>
+  </div>
+  <div class="src">Данные: ftcscout.org · KZCMPJNB2, квалификационные матчи</div>
+  <div class="pn"></div>
+</section>
+
+<!-- 14 Champions -->
+<section class="slide" data-notes="<b>Кто победил.</b> Покажите, что победители — такие же школьники из Казахстана. Главные награды бывают не только за матчи: Inspire — за всё вместе, Design — за конструкцию, Control — за программу. Посмотрите финал на прошлом слайде или по QR.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Финал чемпионата Центральной Азии 2026</div><h2>Награды получают не только за победы в матчах</h2></div>
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-top:40px">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="card" style="background:var(--ink);color:#fff;border:0;display:flex;gap:26px;align-items:center">
+          <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#FFC83D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+          <div><div class="kick" style="color:#9BE7A9">Победители</div><h3 style="font-size:38px">JelToqSun + larpbotics</h3><p style="color:#BFD3C6;font-size:22px">союз-победитель чемпионата</p></div>
+        </div>
+        <div class="card" style="display:flex;gap:26px;align-items:center"><div class="ico" style="width:90px;height:90px"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></div><div><div class="kick">Inspire Award — главная награда</div><h3>JelToqSun</h3><p class="mut" style="font-size:22px">за робота, проект и команду вместе</p></div></div>
+      </div>
+      <div class="card">
+        <div class="kick" style="margin-bottom:14px">Какие ещё бывают награды</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+          <div><h3 class="dg">Design</h3><p style="font-size:22px">лучшая конструкция</p></div>
+          <div><h3 class="dg">Control</h3><p style="font-size:22px">лучшая программа</p></div>
+          <div><h3 class="dg">Innovate</h3><p style="font-size:22px">самое смелое решение</p></div>
+          <div><h3 class="dg">Connect</h3><p style="font-size:22px">связь с инженерами</p></div>
+          <div><h3 class="dg">Reach</h3><p style="font-size:22px">помощь другим</p></div>
+          <div><h3 class="dg">Think</h3><p style="font-size:22px">лучший инж. журнал</p></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px;height:330px"><div class="photo"><img src="img/ftc-kids.jpg"></div><div class="photo"><img src="img/ftc-crowd.jpg"></div><div class="photo"><img src="img/ftc-match.jpg"></div></div>
+  </div>
+  <div class="src">ftcscout.org · Kazakhstan Central Asia Championship 2026, награды</div>
+  <div class="pn"></div>
+</section>
+
+<!-- 15 Kazakhstan on world stage (short videos) -->
+<section class="slide" data-notes="<b>Казахстан — среди лучших в мире.</b> Два коротких видео по минуте: школьники из Казахстана берут золото FIRST Global в Женеве (2022) и в Греции (2024). Покажите одно из них — это сильный аргумент: «Это могли бы быть вы».">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Доказательство · 1 минута</div><h2>Школьники из Казахстана — чемпионы мира</h2></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:40px">
+      <div><div class="video" data-id="_0HxIrjHQ_8" data-start="0" style="height:600px"><img class="th" src="https://i.ytimg.com/vi/_0HxIrjHQ_8/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Женева · 2022</b>FIRST Global Challenge — золото Казахстана</div></div></div>
+      <div><div class="video" data-id="kZtndlmVBdw" data-start="0" style="height:600px"><img class="th" src="https://i.ytimg.com/vi/kZtndlmVBdw/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Греция · 2024</b>FIRST Global — Grand Challenge Award</div></div></div>
+    </div>
+    <div class="row" style="margin-top:30px;gap:16px"><span class="chip">FIRST Global — олимпиада роботов для сборных стран</span><span class="chip">видео: USTEM Foundation</span></div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 16 Skills -->
+<section class="slide" data-notes="<b>Навыки.</b> Три группы навыков. Спросите: «Что из этого пригодится в любой профессии?» Ответ: всё. Особенно — работать в команде и выступать перед людьми.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad" style="display:grid;grid-template-columns:1fr 1.25fr;gap:50px">
+    <div class="photo"><img src="img/skills.jpg"></div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:22px">
+      <div class="kick">Что ты получишь</div><h2>Навыки на всю жизнь</h2>
+      <div class="card up d1"><h3 class="dg">Технические</h3><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px"><span class="chip">программирование</span><span class="chip">3D-проектирование</span><span class="chip">работа с датчиками</span></div></div>
+      <div class="card up d2"><h3 class="dg">Командные</h3><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px"><span class="chip">общение</span><span class="chip">ответственность</span><span class="chip">решения вместе</span></div></div>
+      <div class="card up d3"><h3 class="dg">Лидерство</h3><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px"><span class="chip">выступления</span><span class="chip">организация событий</span><span class="chip">уверенность</span></div></div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 17 Path to profession -->
+<section class="slide" data-notes="<b>Путь к профессии.</b> Пройдите по дорожке слева направо. Скажите: многие инженеры и программисты начинали именно с кружка робототехники. Спросите: «Кем ты хочешь стать?» — и найдите это на последней карточке.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">FTC — подготовка к профессии</div><h2>Твоя дорожка: от LEGO до инженера</h2></div>
+    <div style="display:flex;align-items:stretch;gap:0;margin-top:80px">
+      <div class="up" style="flex:1;text-align:center"><div style="width:140px;height:140px;border-radius:50%;background:#F1E6FF;margin:0 auto;display:flex;align-items:center;justify-content:center;font:900 54px Montserrat;color:var(--pur)">4+</div><h3 style="margin-top:20px">FLL Discover<br>и Explore</h3><p class="mut" style="font-size:22px">играю и строю</p></div>
+      <svg class="up d1" width="80" height="140" viewBox="0 0 80 140"><path d="M8 70h56M54 58l12 12-12 12" stroke="#2AA250" stroke-width="5" fill="none"/></svg>
+      <div class="up d1" style="flex:1;text-align:center"><div style="width:140px;height:140px;border-radius:50%;background:#FFEBDD;margin:0 auto;display:flex;align-items:center;justify-content:center;font:900 54px Montserrat;color:var(--org)">9+</div><h3 style="margin-top:20px">FLL<br>Challenge</h3><p class="mut" style="font-size:22px">программирую робота</p></div>
+      <svg class="up d2" width="80" height="140" viewBox="0 0 80 140"><path d="M8 70h56M54 58l12 12-12 12" stroke="#2AA250" stroke-width="5" fill="none"/></svg>
+      <div class="up d2" style="flex:1;text-align:center"><div style="width:140px;height:140px;border-radius:50%;background:var(--g2);margin:0 auto;display:flex;align-items:center;justify-content:center;font:900 54px Montserrat;color:#fff">12+</div><h3 style="margin-top:20px">FTC</h3><p class="mut" style="font-size:22px">строю из металла,<br>езжу на турниры</p></div>
+      <svg class="up d3" width="80" height="140" viewBox="0 0 80 140"><path d="M8 70h56M54 58l12 12-12 12" stroke="#2AA250" stroke-width="5" fill="none"/></svg>
+      <div class="up d3" style="flex:1;text-align:center"><div style="width:140px;height:140px;border-radius:50%;background:#E3F0FF;margin:0 auto;display:flex;align-items:center;justify-content:center"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#2D5BE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c3 2 9 2 12 0v-5"/></svg></div><h3 style="margin-top:20px">Университет</h3><p class="mut" style="font-size:22px">портфолио и опыт<br>помогают поступить</p></div>
+      <svg class="up d4" width="80" height="140" viewBox="0 0 80 140"><path d="M8 70h56M54 58l12 12-12 12" stroke="#2AA250" stroke-width="5" fill="none"/></svg>
+      <div class="up d4" style="flex:1.3;text-align:center"><div style="width:140px;height:140px;border-radius:50%;background:var(--ink);margin:0 auto;display:flex;align-items:center;justify-content:center"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#FFC83D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.3L12 14.1l-4.8 2.5.9-5.3L4.3 7.6l5.3-.8z"/></svg></div><h3 style="margin-top:20px">Профессия</h3><p class="mut" style="font-size:22px">инженер, программист,<br>дизайнер, учёный</p></div>
+    </div>
+    <div class="up d5" style="margin-top:70px;display:grid;grid-template-columns:420px 1fr;gap:34px;align-items:stretch">
+      <div class="photo" style="height:300px"><img src="img/ftc-kids.jpg"></div>
+      <div style="background:var(--ink);color:#fff;border-radius:28px;padding:40px 46px;display:flex;flex-direction:column;justify-content:center">
+        <div class="kick" style="color:#9BE7A9">Спроси себя</div>
+        <div style="font:800 46px/1.2 Montserrat;margin-top:12px">Кем ты хочешь стать?<br><span style="color:#5CCB4A">Робототехника поможет на любом пути.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 18 Why school benefits -->
+<section class="slide" data-notes="<b>Для учителей и родителей.</b> Этот слайд — для взрослых в зале. Четыре причины, почему школе выгодно иметь команду. Можно пройти быстро.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Для школы и родителей</div><h2>Почему школе это выгодно?</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:50px">
+      <div class="card up" style="height:600px"><div class="ico" style="width:86px;height:86px"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4 19a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-6-10V3"/></svg></div><h3 style="margin-top:26px">STEM-направление</h3><p class="mut" style="margin-top:12px;font-size:24px">математика, физика, код и инженерия — в одном проекте</p></div>
+      <div class="card up d1" style="height:600px"><div class="ico" style="width:86px;height:86px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div><h3 style="margin-top:26px">Международный уровень</h3><p class="mut" style="margin-top:12px;font-size:24px">региональные и международные турниры</p></div>
+      <div class="card up d2" style="height:600px"><div class="ico" style="width:86px;height:86px"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/></svg></div><h3 style="margin-top:26px">Имидж и награды</h3><p class="mut" style="margin-top:12px;font-size:24px">победы повышают репутацию школы</p></div>
+      <div class="card up d3" style="height:600px"><div class="ico" style="width:86px;height:86px"><svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2a2.1 2.1 0 0 0-3-3zM12 15l-3-3a22 22 0 0 1 2-4A13 13 0 0 1 22 2c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2z"/></svg></div><h3 style="margin-top:26px">Подготовка к будущему</h3><p class="mut" style="margin-top:12px;font-size:24px">практика, которая помогает при поступлении</p></div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 19 How to create a team -->
+<section class="slide" data-notes="<b>Как начать.</b> Пять шагов — нажимайте пробел/стрелку, а здесь кликайте по шагам, они загораются по очереди. Подчеркните: начать реально в любой школе.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Как создать команду</div><h2>5 шагов — и ты на турнире</h2></div>
+    <div id="steps" style="position:relative;margin-top:90px;display:grid;grid-template-columns:repeat(5,1fr);gap:20px">
+      <div style="position:absolute;left:8%;right:8%;top:64px;height:8px;background:var(--soft2);border-radius:4px"></div>
+      <div class="st tap" style="text-align:center;position:relative"><div class="dot">1</div><h3>Собрать команду</h3><p class="mut" style="font-size:22px">5–10 ребят<br>12–18 лет</p></div>
+      <div class="st tap" style="text-align:center;position:relative"><div class="dot">2</div><h3>Найти наставника</h3><p class="mut" style="font-size:22px">учитель или ментор</p></div>
+      <div class="st tap" style="text-align:center;position:relative"><div class="dot">3</div><h3>Зарегистрироваться</h3><p class="mut" style="font-size:22px">в программе FIRST — доступ к материалам сезона</p></div>
+      <div class="st tap" style="text-align:center;position:relative"><div class="dot">4</div><h3>Собрать робота</h3><p class="mut" style="font-size:22px">проект, сборка, программа</p></div>
+      <div class="st tap" style="text-align:center;position:relative"><div class="dot">5</div><h3>Выступить</h3><p class="mut" style="font-size:22px">региональные турниры → мир</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:70px;height:300px"><div class="photo"><img src="img/fll-kids.jpg"></div><div class="photo"><img src="img/skills.jpg"></div><div class="photo"><img src="img/ftc-crowd.jpg"></div><div class="photo"><img src="img/team.jpg"></div></div>
+    <style>.dot{width:136px;height:136px;border-radius:50%;margin:0 auto 22px;background:#fff;border:6px solid var(--soft2);display:flex;align-items:center;justify-content:center;font:900 60px Montserrat;color:#B5C8BC;transition:.3s}.st.lit .dot{background:var(--g2);border-color:var(--g2);color:#fff;transform:scale(1.08)}</style>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 20 Map Almaty -->
+<section class="slide" data-notes="<b>Куда пойти.</b> Карта школ и центров в Алматы, где есть FIRST LEGO League. Покажите QR: на полной карте — все города Казахстана, адреса и телефоны. Предложите родителям сфотографировать QR.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad" style="display:grid;grid-template-columns:1.6fr 1fr;gap:44px">
+    <div class="card" style="padding:16px;display:flex"><img src="img/almaty-map.png" style="width:100%;object-fit:contain"></div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:24px">
+      <div class="kick">Где заниматься</div>
+      <h2>Робототехника рядом с домом</h2>
+      <div class="row"><div><div class="big cnt" data-to="143" style="font-size:96px">143</div><p class="mut" style="font-size:22px">школы и центра</p></div><div><div class="big cnt" data-to="50" style="font-size:96px">50</div><p class="mut" style="font-size:22px">городов и сёл</p></div></div>
+      <div style="display:flex;gap:22px;align-items:center"><div class="qr" style="width:220px"><img src="img/qr-map.svg"><span>ПОЛНАЯ КАРТА</span></div><p style="font-size:22px">fll-bioglow-sim.onrender.com/map<br><span class="mut">адреса, телефоны, возраст и программы</span></p></div>
+    </div>
+  </div>
+  <div class="src">Данные: реестр USTEM, 05.11.2026</div>
+  <div class="pn"></div>
+</section>
+
+<!-- 21 Quiz -->
+<section class="slide" data-notes="<b>Мини-викторина.</b> Читайте утверждение, дети кричат «правда!» или «неправда!», потом кликните по карточке — откроется ответ. Отличный способ проверить, что запомнили.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <div class="pad">
+    <div class="head"><div class="kick">Викторина</div><h2>Правда или неправда?</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:50px">
+      <div class="flip tap" style="height:600px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--soft)"><div class="kick">1</div><h3 style="font-size:38px;margin-top:16px">В FTC роботов собирают из LEGO</h3></div><div class="fb" style="background:var(--red);color:#fff"><h3 style="font-size:52px">Неправда</h3><p style="margin-top:14px">LEGO — в FLL. В FTC — металл, пластик и 3D-печать.</p></div></div></div>
+      <div class="flip tap" style="height:600px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--soft)"><div class="kick">2</div><h3 style="font-size:38px;margin-top:16px">Первые 30 секунд матча FTC робот едет сам</h3></div><div class="fb" style="background:var(--g2);color:#fff"><h3 style="font-size:52px">Правда</h3><p style="margin-top:14px">Это автономный период — работает только программа.</p></div></div></div>
+      <div class="flip tap" style="height:600px" onclick="this.classList.toggle('open')"><div class="in"><div class="fa" style="background:var(--soft)"><div class="kick">3</div><h3 style="font-size:38px;margin-top:16px">Награды дают только за победу в матчах</h3></div><div class="fb" style="background:var(--red);color:#fff"><h3 style="font-size:52px">Неправда</h3><p style="margin-top:14px">Есть награды за конструкцию, программу, журнал и помощь другим.</p></div></div></div>
+    </div>
+  </div>
+  <div class="pn"></div>
+</section>
+
+<!-- 22 Final -->
+<section class="slide" data-notes="<b>Финал.</b> Поблагодарите, предложите задать вопросы. Оставьте этот слайд на экране, пока дети и родители сканируют QR-коды.">
+  <img class="logo" src="img/ustem-logo.png" alt="">
+  <img src="img/duck.png" alt="" style="position:absolute;left:0;bottom:0;height:480px">
+  <div style="position:absolute;left:110px;top:140px">
+    <div class="kick">URAN 92 · FTC #25300</div>
+    <h1 style="font-size:130px;margin-top:14px">Есть вопросы?</h1>
+    <p style="font-size:34px;margin-top:20px;max-width:900px" class="mut">Стань частью FIRST — начни с команды в своей школе.</p>
+  </div>
+  <div style="position:absolute;right:120px;bottom:150px;display:flex;gap:26px">
+    <div class="qr" style="width:220px"><img src="img/qr-ustem.svg"><span>USTEM НА YOUTUBE</span></div>
+    <div class="qr" style="width:220px"><img src="img/qr-map.svg"><span>КАРТА КРУЖКОВ</span></div>
+    <div class="qr" style="width:220px"><img src="img/qr-sim.svg"><span>СИМУЛЯТОР FLL</span></div>
+  </div>
+</section>
+
+</div>
+<div id="bar"></div>
+<div id="hint">← → листать · F — полный экран · N — подсказки для выступающего</div>
+<div id="notes"></div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'), slides=[].slice.call(document.querySelectorAll('.slide')), cur=0;
+  function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+s+') translate(-50%,-50%)';stage.style.transformOrigin='0 0';stage.style.left='50%';stage.style.top='50%';stage.style.transform='translate(-50%,-50%) scale('+s+')';stage.style.transformOrigin='center center';}
+  addEventListener('resize',fit);fit();
+  function stopVideos(sl){sl.querySelectorAll('.video iframe').forEach(function(f){var v=f.parentNode;f.remove();v.querySelectorAll('.th,.play,.cap').forEach(function(e){e.style.display=''});});}
+  function go(n){n=Math.max(0,Math.min(slides.length-1,n));if(n!==cur)stopVideos(slides[cur]);slides[cur].classList.remove('on');cur=n;slides[cur].classList.add('on');
+    document.getElementById('bar').style.width=((cur+1)/slides.length*100)+'%';
+    document.getElementById('notes').innerHTML='<span style="opacity:.6">Слайд '+(cur+1)+' / '+slides.length+'</span> &nbsp; '+(slides[cur].dataset.notes||'');
+    try{history.replaceState(null,'','#'+(cur+1))}catch(e){}
+    slides[cur].querySelectorAll('.cnt').forEach(count);}
+  function count(el){var to=+el.dataset.to,t0=null;function step(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/900);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
+  addEventListener('keydown',function(e){if(e.target.tagName==='INPUT')return;
+    if(['ArrowRight','PageDown',' ','Enter'].indexOf(e.key)>=0){e.preventDefault();go(cur+1)}
+    else if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>=0){e.preventDefault();go(cur-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+    else if(e.key==='f'||e.key==='F'||e.key==='а'||e.key==='А'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+    else if(e.key==='n'||e.key==='N'||e.key==='т'||e.key==='Т'){document.body.classList.toggle('shownotes')}});
+  // video players
+  function play(v){if(v.querySelector('iframe'))return;var id=v.dataset.id,st=+v.dataset.start||0;
+    if(location.protocol==='file:'){window.open('https://www.youtube.com/watch?v='+id+(st?'&t='+st+'s':''),'_blank');return;}
+    v.querySelectorAll('.th,.play,.cap').forEach(function(e){e.style.display='none'});
+    if(window.crossOriginIsolated&&!('credentialless' in HTMLIFrameElement.prototype)){window.open('https://www.youtube.com/watch?v='+id+(st?'&t='+st+'s':''),'_blank');return;}
+    var f=document.createElement('iframe');f.setAttribute('credentialless','');f.credentialless=true;f.allow='autoplay; encrypted-media; fullscreen; picture-in-picture';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';
+    f.src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&start='+st;v.appendChild(f);}
+  document.querySelectorAll('.video').forEach(function(v){v.addEventListener('click',function(){play(v)});
+    var th=v.querySelector('.th');th.onerror=function(){th.style.display='none'};});
+  document.querySelectorAll('.vsw').forEach(function(b){b.addEventListener('click',function(){var v=document.getElementById(b.dataset.target);
+    var f=v.querySelector('iframe');if(f)f.remove();v.dataset.id=b.dataset.id;v.querySelector('.th').src='https://i.ytimg.com/vi/'+b.dataset.id+'/hqdefault.jpg';
+    v.querySelector('.cap').innerHTML='<b>'+b.dataset.cap+'</b>CENTRAL ASIA FIRST CHAMPIONSHIP 2026 / Janibek Division';
+    v.querySelectorAll('.th,.play,.cap').forEach(function(e){e.style.display=''});
+    document.querySelectorAll('.vsw').forEach(function(x){x.style.background='';x.style.color=''});b.style.background='var(--g2)';b.style.color='#fff';});});
+  // page numbers
+  slides.forEach(function(sl,i){var p=sl.querySelector('.pn');if(p)p.textContent=i;});
+  // matches chart
+  var M=[[4,51,71],[15,253,43],[24,244,245],[37,135,190],[46,123,152],[56,114,303],[61,108,193],[72,199,243]];
+  var mc=document.getElementById('matches');
+  M.forEach(function(m){var d=document.createElement('div');var k=440/303;var hi=m[0]===15||m[0]===24;
+    d.innerHTML='<div style="display:flex;gap:6px;align-items:flex-end;height:450px">'
+      +'<div style="flex:1;height:'+(m[1]*k)+'px;background:'+(m[1]>m[2]?'#2AA250':'#7FD08E')+';border-radius:10px 10px 0 0;position:relative"><span style="position:absolute;top:-34px;left:0;right:0;text-align:center;font:800 24px Montserrat;color:#00794E">'+m[1]+'</span></div>'
+      +'<div style="flex:1;height:'+(m[2]*k)+'px;background:#C9CFCB;border-radius:10px 10px 0 0;position:relative"><span style="position:absolute;top:-34px;left:0;right:0;text-align:center;font:700 22px Montserrat;color:#6B746F">'+m[2]+'</span></div></div>'
+      +'<div style="text-align:center;margin-top:10px;font:700 20px JetBrains Mono;color:#5B6660">Q'+m[0]+'</div>'
+      +(m[0]===15?'<div class="chip" style="background:#2AA250;color:#fff;justify-content:center;margin-top:6px;font-size:18px">победа!</div>':'')
+      +(m[0]===24?'<div class="chip" style="background:#0F1A14;color:#FFC83D;justify-content:center;margin-top:6px;font-size:18px">−1 очко</div>':'')
+      +(!hi?'<div style="height:42px"></div>':'');
+    mc.appendChild(d);});
+  // age finder
+  var L=[{n:'FLL Discover',a:4,b:6,c:'#7B4DE0',bg:'#F1E6FF'},{n:'FLL Explore',a:6,b:10,c:'#2D5BE3',bg:'#E3F0FF'},{n:'FLL Challenge',a:9,b:16,c:'#FF7A1A',bg:'#FFEBDD'},{n:'FIRST Tech Challenge',a:12,b:18,c:'#2AA250',bg:'#EAF6EE'}];
+  var box=document.getElementById('leagues'),W=1728;
+  L.forEach(function(l,i){var d=document.createElement('div');var x=(l.a-4)/14*W,w=(l.b-l.a)/14*W;
+    d.style.cssText='position:absolute;left:'+x+'px;width:'+w+'px;top:'+(i*128)+'px;height:104px;border-radius:26px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font:800 36px Montserrat;transition:.25s';
+    d.innerHTML='<span>'+l.n+'</span><span style="font:700 22px JetBrains Mono">'+l.a+'–'+l.b+' лет</span>';if(w<400){d.style.justifyContent='center';d.innerHTML='<span style="font:700 22px JetBrains Mono">'+l.a+'–'+l.b+'</span>';var lab=document.createElement('div');lab.textContent=l.n;lab.style.cssText='position:absolute;left:'+(x+w+18)+'px;top:'+(i*128+28)+'px;font:800 36px Montserrat;color:'+l.c;box.appendChild(lab);}l.el=d;box.appendChild(d);});
+  var marker=document.createElement('div');marker.style.cssText='position:absolute;top:-16px;width:6px;height:520px;background:#0F1A14;border-radius:3px;transition:left .15s';box.appendChild(marker);
+  function upd(){var a=+document.getElementById('age').value;document.getElementById('ageV').textContent=a;marker.style.left=((a-4)/14*W-3)+'px';
+    L.forEach(function(l){var on=a>=l.a&&a<=l.b;l.el.style.background=on?l.c:l.bg;l.el.style.color=on?'#fff':l.c;l.el.style.transform=on?'scale(1.02)':'none';l.el.style.opacity=on?1:.55;});}
+  document.getElementById('age').addEventListener('input',upd);upd();
+  // match timer
+  var run=null;document.getElementById('mstart').addEventListener('click',function(){var t0=performance.now(),dur=158,speed=1;if(run)cancelAnimationFrame(run);
+    var bar=document.getElementById('mbar'),clk=document.getElementById('mclock'),ph=document.getElementById('mphase');
+    function tick(t){var s=(t-t0)/1000*speed;if(s>dur)s=dur;bar.style.left='calc('+(s/dur*100)+'% - 3px)';
+      var left;if(s<30){left=150-s;ph.textContent='Автономный: робот едет сам';}else if(s<38){left=120;ph.textContent='Пауза: берём пульты';}else{left=120-(s-38);ph.textContent=(left<=20?'Финальные 20 секунд!':'Управляем с пульта');}
+      left=Math.max(0,Math.ceil(left));clk.textContent=Math.floor(left/60)+':'+('0'+left%60).slice(-2);
+      if(s<dur)run=requestAnimationFrame(tick);else ph.textContent='Конец матча!';}
+    run=requestAnimationFrame(tick);});
+  // steps
+  document.querySelectorAll('#steps .st').forEach(function(s,i,all){s.addEventListener('click',function(){all.forEach(function(x,j){x.classList.toggle('lit',j<=i)})})});
+  go(Math.max(0,(parseInt(location.hash.slice(1))||1)-1));
+  slides[cur].classList.add('on');
+  document.getElementById('stage').addEventListener('click',function(e){if(e.target.closest('.tap,.video,button,input,a,.flip,.qr'))return;if(e.clientX>innerWidth*0.66)go(cur+1);else if(e.clientX<innerWidth*0.2)go(cur-1);});
+})();
+</script>
+</body>
+</html>
