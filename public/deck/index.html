@@ -49,6 +49,10 @@ p,li{font-size:28px;line-height:1.4}
 .video .cap{position:absolute;left:0;right:0;bottom:0;padding:60px 30px 24px;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font:700 26px Manrope}
 .video .cap b{display:block;font:700 18px 'JetBrains Mono';color:#9BE7A9;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vlink{display:inline-flex;align-items:center;gap:12px;align-self:flex-start;padding:10px 20px 10px 14px;border-radius:999px;background:#fff;border:2px solid var(--line);color:var(--ink);font:700 22px Manrope;text-decoration:none;margin-top:14px}
+.vlink:hover{border-color:#FF0000}
+.vlink svg{width:34px;height:24px;flex:none}
+.vlink span{font:500 17px 'JetBrains Mono',monospace;color:var(--mut)}
 .qr{background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px;text-align:center}
 .qr img{width:100%;display:block}
 .qr span{display:block;font:700 16px 'JetBrains Mono';color:var(--g);margin-top:6px;letter-spacing:.04em}
@@ -231,7 +235,7 @@ body.shownotes #notes{display:block}
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:24px;justify-content:center">
-      <div class="video" data-id="wiVSrUVilXc" data-start="0" style="height:470px"><img class="th" src="https://i.ytimg.com/vi/wiVSrUVilXc/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Видео · USTEM Foundation</b>Миссии игры роботов BIOGLOW, на русском</div></div>
+      <div class="video" data-id="wiVSrUVilXc" data-start="0" style="height:470px"><img class="th" src="https://i.ytimg.com/vi/wiVSrUVilXc/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Видео · USTEM Foundation</b>Миссии игры роботов BIOGLOW, на русском</div></div><a class="vlink" href="https://www.youtube.com/watch?v=wiVSrUVilXc" target="_blank" rel="noopener"><svg viewBox="0 0 34 24"><rect width="34" height="24" rx="6" fill="#FF0000"/><path d="M13.5 7v10l9-5z" fill="#fff"/></svg>Смотреть на YouTube <span>youtube.com/watch?v=wiVSrUVilXc</span></a>
       <div style="display:flex;gap:24px;align-items:center">
         <div class="qr" style="width:190px"><img src="img/qr-sim.svg"><span>СИМУЛЯТОР</span></div>
         <p style="font-size:24px">Попробуй сам: наш онлайн-симулятор поля BIOGLOW — программируй робота прямо в браузере.</p>
@@ -355,11 +359,11 @@ body.shownotes #notes{display:block}
     <div style="display:flex;flex-direction:column;gap:20px">
       <div class="kick">Смотрим вживую · USTEM Foundation</div>
       <h2 style="font-size:52px">Чемпионат Центральной Азии 2026 — дивизион Janibek</h2>
-      <div class="video" id="vJan" data-id="jZl2tIXY-o8" data-start="0" style="height:560px"><img class="th" src="img/ftc-match.jpg"><div class="play"></div><div class="cap"><b>Трансляция · день 1</b>CENTRAL ASIA FIRST CHAMPIONSHIP 2026 / Janibek Division</div></div>
+      <div class="video" id="vJan" data-id="jZl2tIXY-o8" data-start="0" style="height:560px"><img class="th" src="img/ftc-match.jpg"><div class="play"></div><div class="cap"><b>Трансляция · день 1</b>CENTRAL ASIA FIRST CHAMPIONSHIP 2026 / Janibek Division</div></div><a class="vlink" id="vJanLink" href="https://www.youtube.com/watch?v=jZl2tIXY-o8" target="_blank" rel="noopener"><svg viewBox="0 0 34 24"><rect width="34" height="24" rx="6" fill="#FF0000"/><path d="M13.5 7v10l9-5z" fill="#fff"/></svg>Смотреть на YouTube <span>youtube.com/watch?v=jZl2tIXY-o8</span></a>
       <div style="display:flex;gap:14px">
-        <button class="vsw chip tap" style="border:0" data-target="vJan" data-id="jZl2tIXY-o8" data-cap="Трансляция · день 1">День 1</button>
+        <button class="vsw chip tap" style="border:0;background:var(--g2);color:#fff" data-target="vJan" data-id="jZl2tIXY-o8" data-cap="Трансляция · день 1">День 1</button>
         <button class="vsw chip tap" style="border:0" data-target="vJan" data-id="_hcWJRmSqL4" data-cap="Трансляция · день 2">День 2</button>
-        <button class="vsw chip tap" style="border:0;background:var(--g2);color:#fff" data-target="vJan" data-id="wbAPxGO-cYY" data-cap="Трансляция · финал">Финал</button>
+        <button class="vsw chip tap" style="border:0" data-target="vJan" data-id="wbAPxGO-cYY" data-cap="Трансляция · финал">Финал</button>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:22px;justify-content:center">
@@ -408,8 +412,8 @@ body.shownotes #notes{display:block}
   <div class="pad">
     <div class="head"><div class="kick">Доказательство · 1 минута</div><h2>Школьники из Казахстана — чемпионы мира</h2></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:40px">
-      <div><div class="video" data-id="_0HxIrjHQ_8" data-start="0" style="height:600px"><img class="th" src="https://i.ytimg.com/vi/_0HxIrjHQ_8/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Женева · 2022</b>FIRST Global Challenge — золото Казахстана</div></div></div>
-      <div><div class="video" data-id="kZtndlmVBdw" data-start="0" style="height:600px"><img class="th" src="https://i.ytimg.com/vi/kZtndlmVBdw/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Греция · 2024</b>FIRST Global — Grand Challenge Award</div></div></div>
+      <div><div class="video" data-id="_0HxIrjHQ_8" data-start="0" style="height:600px"><img class="th" src="https://i.ytimg.com/vi/_0HxIrjHQ_8/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Женева · 2022</b>FIRST Global Challenge — золото Казахстана</div></div><a class="vlink" href="https://www.youtube.com/watch?v=_0HxIrjHQ_8" target="_blank" rel="noopener"><svg viewBox="0 0 34 24"><rect width="34" height="24" rx="6" fill="#FF0000"/><path d="M13.5 7v10l9-5z" fill="#fff"/></svg>Смотреть на YouTube <span>youtube.com/watch?v=_0HxIrjHQ_8</span></a></div>
+      <div><div class="video" data-id="kZtndlmVBdw" data-start="0" style="height:600px"><img class="th" src="https://i.ytimg.com/vi/kZtndlmVBdw/hqdefault.jpg"><div class="play"></div><div class="cap"><b>Греция · 2024</b>FIRST Global — Grand Challenge Award</div></div><a class="vlink" href="https://www.youtube.com/watch?v=kZtndlmVBdw" target="_blank" rel="noopener"><svg viewBox="0 0 34 24"><rect width="34" height="24" rx="6" fill="#FF0000"/><path d="M13.5 7v10l9-5z" fill="#fff"/></svg>Смотреть на YouTube <span>youtube.com/watch?v=kZtndlmVBdw</span></a></div>
     </div>
     <div class="row" style="margin-top:30px;gap:16px"><span class="chip">FIRST Global — олимпиада роботов для сборных стран</span><span class="chip">видео: USTEM Foundation</span></div>
   </div>
@@ -571,7 +575,7 @@ body.shownotes #notes{display:block}
   document.querySelectorAll('.video').forEach(function(v){v.addEventListener('click',function(){play(v)});
     var th=v.querySelector('.th');th.onerror=function(){th.style.display='none'};});
   document.querySelectorAll('.vsw').forEach(function(b){b.addEventListener('click',function(){var v=document.getElementById(b.dataset.target);
-    var f=v.querySelector('iframe');if(f)f.remove();v.dataset.id=b.dataset.id;
+    var f=v.querySelector('iframe');if(f)f.remove();v.dataset.id=b.dataset.id;var ln=document.getElementById(b.dataset.target+'Link');if(ln){ln.href='https://www.youtube.com/watch?v='+b.dataset.id;ln.querySelector('span').textContent='youtube.com/watch?v='+b.dataset.id;}
     v.querySelector('.cap').innerHTML='<b>'+b.dataset.cap+'</b>CENTRAL ASIA FIRST CHAMPIONSHIP 2026 / Janibek Division';
     v.querySelectorAll('.th,.play,.cap').forEach(function(e){e.style.display=''});
     document.querySelectorAll('.vsw').forEach(function(x){x.style.background='';x.style.color=''});b.style.background='var(--g2)';b.style.color='#fff';});});
