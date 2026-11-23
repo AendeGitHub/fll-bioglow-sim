@@ -8,8 +8,50 @@ import { python } from '@codemirror/lang-python';
 import { Blockly, defineBlocks, applyBlockLanguage, makeToolbox, blocksToJs, blocksToPython, hasProgram } from './engine/blocks.js';
 import { World, DT, ROBOT, COLORS } from './engine/world.js';
 import { FieldView } from './engine/render.js';
-import { Runner, Player } from './engine/runner.js';
+import { Bench } from './engine/bench.js';
+import { BenchView, LIGHT } from './engine/benchView.js';
+import { Runner, Player, interpRobot, interpBench } from './engine/runner.js';
 import { lang, LANGS, LANG_NAMES, setLang, onLang, t, tr } from './i18n.js';
+
+/**
+ * The two kinds of simulator a mission can use: the driving robot on a table (FIRST, FLL…) and the
+ * SPIKE Essential bench (a hub with a motor, light matrix and colour sensor driving a model).
+ */
+const SIMS = {
+  robot: {
+    kit: 'robot',
+    View: FieldView,
+    interp: interpRobot,
+    start(field) { const w = new World(field); const s = w.snapshot(); s.c = w.color(); s.d = w.distance(); return s; },
+    hud(s) {
+      const c = s.c ? h('span', { class: 'sw', style: `background:${COLORS[s.c][0]}` }) : null;
+      return [
+        h('span', {}, '⏱ ', (s.t ?? 0).toFixed(1), ' s'),
+        h('span', {}, c, ' ', t('color.' + s.c)),
+        h('span', {}, '📏 ', s.d >= ROBOT.eyeRange ? '—' : (s.d ?? 0).toFixed(0) + ' cm'),
+      ];
+    },
+    worldAt(field, final) {
+      const w = new World(field);
+      Object.assign(w.robot, final.robot);
+      final.objects.forEach((o, i) => { w.objects[i].x = o.x; w.objects[i].y = o.y; });
+      return w;
+    },
+  },
+  bench: {
+    kit: 'essential',
+    View: BenchView,
+    interp: interpBench,
+    start(setup) { return new Bench(setup).snapshot(); },
+    hud(s) {
+      const out = [h('span', {}, '⏱ ', (s.t ?? 0).toFixed(1), ' s')];
+      for (const p of ['A', 'B']) if (typeof s[p] === 'number') out.push(h('span', {}, `${p}: ${((Math.round(s[p]) % 360) + 360) % 360}°`));
+      if (s.sc && s.sc !== 'none') out.push(h('span', {}, h('span', { class: 'sw', style: `background:${LIGHT[s.sc]}` }), ' ', t('color.' + s.sc)));
+      return out;
+    },
+    worldAt: () => null,
+  },
+};
 
 const KIND_ICON = { theory: '📖', quiz: '❓', drive: '🎮', mission: '🤖' };
 
@@ -231,6 +273,7 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
     let fails = 0;
     let hintN = 0;
     const fields = step.fields ?? [step.field];
+    const SIM = SIMS[step.sim ?? 'robot'];
     const shown = fields[0];
 
     // --- task card
@@ -272,7 +315,7 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
     const previewBox = h('details', { class: 'py-preview' },
       h('summary', {}, '🐍 ' + t('code.asPython')),
       preview,
-      h('button', { class: 'ghost small', onclick: () => { setPython(blocksToPython(ws)); setMode('python'); saveCode(); } }, t('code.toPython')));
+      h('button', { class: 'ghost small', onclick: () => { setPython(blocksToPython(ws, SIM.kit)); setMode('python'); saveCode(); } }, t('code.toPython')));
     const runBtn = h('button', { class: 'primary run', onclick: () => run() }, t('code.run'));
     const stopBtn = h('button', { class: 'ghost', onclick: () => stopAll(), disabled: true }, t('code.stop'));
     const resetBtn = h('button', { class: 'ghost', onclick: () => { stopAll(); showStart(); } }, t('code.reset'));
@@ -291,28 +334,22 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
     stage.replaceChildren(h('div', { class: 'mission' }, h('div', { class: 'left' }, task, fieldWrap), code), next);
 
     // --- field view
-    const view = new FieldView(canvas, shown);
+    const view = new SIM.View(canvas, shown);
     view.labels = (z) => tr(z.label);
+    view.text = (v) => tr(v);
     view.showRay = !!step.showRay;
     const showStart = () => {
       view.clearTrail();
-      const w = new World(shown);
-      const s = w.snapshot(); s.c = w.color(); s.d = w.distance();
+      const s = SIM.start(shown);
       view.draw(s);
       setHud(s);
       banner.className = 'banner';
     };
-    const setHud = (s) => {
-      const c = s.c ? h('span', { class: 'sw', style: `background:${COLORS[s.c][0]}` }) : null;
-      hud.replaceChildren(
-        h('span', {}, '⏱ ', (s.t ?? 0).toFixed(1), ' s'),
-        h('span', {}, c, ' ', t('color.' + s.c)),
-        h('span', {}, '📏 ', s.d >= ROBOT.eyeRange ? '—' : (s.d ?? 0).toFixed(0) + ' cm'));
-    };
+    const setHud = (s) => hud.replaceChildren(...SIM.hud(s));
 
     // --- Blockly
     const ws = Blockly.inject(blocklyHost, {
-      toolbox: makeToolbox(step.blocks),
+      toolbox: makeToolbox(step.blocks, SIM.kit),
       renderer: 'zelos',
       theme: Blockly.Themes.Zelos ?? undefined,
       trashcan: true,
@@ -330,7 +367,7 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
       }
       updatePreview();
     };
-    const updatePreview = () => { preview.textContent = blocksToPython(ws); };
+    const updatePreview = () => { preview.textContent = blocksToPython(ws, SIM.kit); };
     let saveTimer = 0;
     ws.addChangeListener((e) => {
       if (e.isUiEvent) return;
@@ -409,7 +446,7 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
       banner.className = 'banner';
       setBusy(true);
       log(t('code.running'), 'info');
-      const res = await runner.run({ lang: mode === 'blocks' ? 'js' : 'python', code: src, fields, show: 0, timeLimit: step.timeLimit });
+      const res = await runner.run({ lang: mode === 'blocks' ? 'js' : 'python', code: src, fields, show: 0, timeLimit: step.timeLimit, sim: step.sim ?? 'robot' });
       if (res.killed) {
         if (res.killed === 'stuck') log(t('code.stuck'), 'err');
         setBusy(false);
@@ -420,6 +457,7 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
       view.clearTrail();
       player.play(shownRun.frames, shownRun.events, {
         speed,
+        interp: SIM.interp,
         onFrame: (f) => {
           view.draw(f);
           setHud(f);
@@ -445,22 +483,15 @@ export function mountLesson(root, lesson, { home = '../', logo, pyBase, media })
       });
     }
 
-    function worldAt(field, final) {
-      const w = new World(field);
-      Object.assign(w.robot, final.robot);
-      final.objects.forEach((o, i) => { w.objects[i].x = o.x; w.objects[i].y = o.y; });
-      return w;
-    }
-
     function evaluate(runs, src) {
       const r0 = runs[0];
-      if (r0.status === 'timeup') log(t('run.timeup', { s: step.timeLimit }), 'info');
+      if (r0.status === 'timeup') log(t(step.endless ? 'run.scenarioEnd' : 'run.timeup', { s: step.timeLimit }), 'info');
       else log(t('run.done', { s: r0.final.t.toFixed(1) }), 'info');
       let best = 3, msg = null;
       for (let i = 0; i < runs.length; i++) {
         const r = runs[i];
         if (r.status === 'error') { log(t('run.error') + ' ' + r.error, 'err'); return fail(null); }
-        const res = step.check.call(step, { final: r.final, world: worldAt(fields[i], r.final), mode, code: src, run: r });
+        const res = step.check.call(step, { final: r.final, world: SIM.worldAt(fields[i], r.final), field: fields[i], mode, code: src, run: r });
         if (!res.ok) {
           const prefix = runs.length > 1 ? `${tr({ kk: 'Сынақ', ru: 'Тест', en: 'Test' })} ${i + 1}/${runs.length}: ` : '';
           return fail(prefix + tr(res.text));

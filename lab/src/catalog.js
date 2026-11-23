@@ -6,7 +6,7 @@ export const GROUPS = [
     title: { kk: 'Робототехника', ru: 'Робототехника', en: 'Robotics' },
     courses: [
       { id: 'first', icon: '🏆', href: './first/', title: 'FIRST', about: { kk: 'FIRST әлемі, құндылықтар және роботтың алғашқы бағдарламалары', ru: 'Мир FIRST, ценности и первые программы для робота', en: 'The world of FIRST, its values and a robot’s first programs' } },
-      { id: 'spike-essential', icon: '🧱', title: 'LEGO SPIKE Essential', about: { kk: 'Кішкентайларға арналған LEGO моделдері мен блоктар', ru: 'Модели LEGO и блоки для младших', en: 'LEGO models and blocks for younger students' } },
+      { id: 'spike-essential', icon: '🧱', href: './spike-essential/', title: 'LEGO SPIKE Essential', about: { kk: 'Кішкентайларға арналған LEGO моделдері мен блоктар', ru: 'Модели LEGO и блоки для младших', en: 'LEGO models and blocks for younger students' } },
       { id: 'spike-prime', icon: '🟨', title: 'LEGO SPIKE Prime', about: { kk: 'Хаб, моторлар, датчиктер, Python', ru: 'Хаб, моторы, датчики, Python', en: 'Hub, motors, sensors, Python' } },
       { id: 'lego-cs-ai', icon: '🧠', title: 'LEGO CS & AI', about: { kk: 'Информатика және жасанды интеллект LEGO-мен', ru: 'Информатика и ИИ с LEGO', en: 'Computer science and AI with LEGO' } },
       { id: 'fll-explore', icon: '🔭', title: 'FLL Explore', about: { kk: 'Модель, зерттеу, плакат', ru: 'Модель, исследование, плакат', en: 'Model, research, poster' } },
