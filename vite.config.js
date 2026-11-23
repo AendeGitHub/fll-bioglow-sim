@@ -53,6 +53,7 @@ export default defineConfig({
         main: path.resolve('index.html'),
         lab: path.resolve('lab/index.html'),
         'lab-first': path.resolve('lab/first/index.html'),
+        'lab-spike-essential': path.resolve('lab/spike-essential/index.html'),
       },
     },
   },

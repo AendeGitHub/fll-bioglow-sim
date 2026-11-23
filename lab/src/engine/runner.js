@@ -52,12 +52,12 @@ export class Runner {
   }
 
   /** @returns {Promise<{runs?: object[], show?: number, killed?: string, fatal?: string}>} */
-  run({ lang, code, fields, show = 0, timeLimit }) {
+  run({ lang, code, fields, show = 0, timeLimit, sim = 'robot' }) {
     if (this.pending) this.kill('stopped');
     if (!this.worker) this.spawn();
     return new Promise((resolve) => {
       this.pending = resolve;
-      this.worker.postMessage({ type: 'run', lang, code, fields, show, timeLimit, pyBase: this.pyBase });
+      this.worker.postMessage({ type: 'run', lang, code, fields, show, timeLimit, sim, pyBase: this.pyBase });
     });
   }
 }
@@ -70,11 +70,27 @@ function lerpAngle(a, b, k) {
   return a + d * k;
 }
 
+/** Smooth robot motion between two recorded frames. */
+export function interpRobot(a, b, k) {
+  return {
+    ...a,
+    x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), a: lerpAngle(a.a, b.a, k),
+    o: a.o.map((p, j) => [lerp(p[0], b.o[j][0], k), lerp(p[1], b.o[j][1], k)]),
+  };
+}
+
+/** Smooth motor angles on the SPIKE Essential bench. */
+export function interpBench(a, b, k) {
+  const s = { ...a };
+  for (const p of ['A', 'B']) if (typeof a[p] === 'number' && typeof b[p] === 'number') s[p] = lerp(a[p], b[p], k);
+  return s;
+}
+
 /** Plays recorded frames back in real time (times a speed factor). */
 export class Player {
   constructor() { this.raf = 0; this.playing = false; }
 
-  play(frames, events, { speed = 1, onFrame, onEvent, onEnd }) {
+  play(frames, events, { speed = 1, onFrame, onEvent, onEnd, interp = interpRobot }) {
     this.stop();
     this.playing = true;
     const end = frames[frames.length - 1].t;
@@ -87,12 +103,7 @@ export class Player {
       while (ev < events.length && events[ev].t <= simT) onEvent(events[ev++]);
       const a = frames[i], b = frames[Math.min(i + 1, frames.length - 1)];
       const k = b.t > a.t ? Math.min(1, Math.max(0, (simT - a.t) / (b.t - a.t))) : 0;
-      onFrame({
-        ...a,
-        x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), a: lerpAngle(a.a, b.a, k),
-        o: a.o.map((p, j) => [lerp(p[0], b.o[j][0], k), lerp(p[1], b.o[j][1], k)]),
-        t: simT,
-      });
+      onFrame({ ...interp(a, b, k), t: simT });
       if (simT >= end) {
         while (ev < events.length) onEvent(events[ev++]);
         onFrame({ ...frames[frames.length - 1] });

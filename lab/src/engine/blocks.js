@@ -60,6 +60,32 @@ const M = {
   CAT_SENSING: { kk: 'Датчиктер', ru: 'Датчики', en: 'Sensors' },
   CAT_OPERATORS: { kk: 'Операторлар', ru: 'Операторы', en: 'Operators' },
   CAT_LOOKS: { kk: 'Хаб', ru: 'Хаб', en: 'Hub' },
+
+  // SPIKE Essential
+  ES_RUN_FOR: { kk: '%1 мотор %2 бағытта %3 %4 айналады', ru: '%1 мотор %2 на %3 %4', en: '%1 run %2 for %3 %4' },
+  ES_START: { kk: '%1 моторды %2 қосу', ru: '%1 включить мотор %2', en: '%1 start motor %2' },
+  ES_STOP: { kk: '%1 моторды тоқтату', ru: '%1 остановить мотор', en: '%1 stop motor' },
+  ES_SPEED: { kk: '%1 мотор жылдамдығы %2 %%', ru: '%1 скорость мотора %2 %%', en: '%1 set speed to %2 %%' },
+  ES_GO_TO: { kk: '%1 %2 позициясына бару', ru: '%1 перейти в позицию %2', en: '%1 go to position %2' },
+  ES_POSITION: { kk: '%1 позициясы', ru: '%1 позиция', en: '%1 position' },
+  ES_SHOW: { kk: 'матрица: %1 суретін %2 түспен көрсету', ru: 'матрица: показать %1 цветом %2', en: 'light matrix: show %1 in %2' },
+  ES_PIXEL: { kk: 'матрица: пиксель x %1 y %2 түсі %3', ru: 'матрица: пиксель x %1 y %2 цвет %3', en: 'light matrix: pixel x %1 y %2 to %3' },
+  ES_FILL: { kk: 'матрица: бәрін %1 түспен жағу', ru: 'матрица: залить цветом %1', en: 'light matrix: fill with %1' },
+  ES_CLEAR: { kk: 'матрицаны сөндіру', ru: 'выключить матрицу', en: 'turn off light matrix' },
+  ES_COLOR_IS: { kk: 'датчик түсі %1 ме?', ru: 'датчик видит %1 ?', en: 'sensor color is %1 ?' },
+  ES_HUB_LIGHT: { kk: 'хаб шамы %1', ru: 'свет хаба %1', en: 'set hub light to %1' },
+  CW: { kk: '↻ сағат тілімен', ru: '↻ по часовой', en: '↻ clockwise' },
+  CCW: { kk: '↺ сағат тіліне қарсы', ru: '↺ против часовой', en: '↺ anticlockwise' },
+  U_ROT: { kk: 'айналым', ru: 'оборотов', en: 'rotations' },
+  U_DEG: { kk: 'градус', ru: 'градусов', en: 'degrees' },
+  U_SEC: { kk: 'секунд', ru: 'секунд', en: 'seconds' },
+  C_ORANGE: { kk: 'сарғылт', ru: 'оранжевый', en: 'orange' },
+  C_AZURE: { kk: 'көгілдір', ru: 'голубой', en: 'azure' },
+  C_VIOLET: { kk: 'күлгін', ru: 'фиолетовый', en: 'violet' },
+  C_NONE: { kk: 'ештеңе', ru: 'ничего', en: 'nothing' },
+  CAT_MOTORS: { kk: 'Моторлар', ru: 'Моторы', en: 'Motors' },
+  CAT_LIGHT: { kk: 'Жарық', ru: 'Свет', en: 'Light' },
+  CAT_SOUND: { kk: 'Хаб', ru: 'Хаб', en: 'Hub' },
 };
 
 /** Blockly's own interface strings that Kazakh needs (the rest falls back to Russian). */
@@ -95,6 +121,17 @@ const COLOR_OPTIONS = [
   ['%{BKY_UL_C_GREEN}', 'green'], ['%{BKY_UL_C_BLUE}', 'blue'], ['%{BKY_UL_C_YELLOW}', 'yellow'],
 ];
 
+const PORT = { type: 'field_dropdown', name: 'PORT', options: [['A', 'A'], ['B', 'B']] };
+const DIR = { type: 'field_dropdown', name: 'DIR', options: [['%{BKY_UL_CW}', '1'], ['%{BKY_UL_CCW}', '-1']] };
+const IMAGE_OPTIONS = [['🙂', 'smile'], ['🙁', 'sad'], ['❤', 'heart'], ['✔', 'check'], ['✖', 'cross'], ['⬆', 'arrow_up'], ['▢', 'square'], ['•', 'dot'], ['■', 'full']];
+const MATRIX_OPTIONS = [
+  ['%{BKY_UL_C_RED}', 'red'], ['%{BKY_UL_C_ORANGE}', 'orange'], ['%{BKY_UL_C_YELLOW}', 'yellow'], ['%{BKY_UL_C_GREEN}', 'green'],
+  ['%{BKY_UL_C_AZURE}', 'azure'], ['%{BKY_UL_C_BLUE}', 'blue'], ['%{BKY_UL_C_VIOLET}', 'violet'], ['%{BKY_UL_C_WHITE}', 'white'],
+];
+const SENSOR_OPTIONS = [
+  ['%{BKY_UL_C_RED}', 'red'], ['%{BKY_UL_C_YELLOW}', 'yellow'], ['%{BKY_UL_C_GREEN}', 'green'], ['%{BKY_UL_C_BLUE}', 'blue'],
+  ['%{BKY_UL_C_WHITE}', 'white'], ['%{BKY_UL_C_BLACK}', 'black'], ['%{BKY_UL_C_NONE}', 'none'],
+];
 const num = (name) => ({ type: 'input_value', name, check: 'Number' });
 const bool = (name) => ({ type: 'input_value', name, check: 'Boolean' });
 const stmt = { previousStatement: null, nextStatement: null };
@@ -147,6 +184,28 @@ const DEFS = [
     ...stmt, colour: C.looks,
   },
   { type: 'ul_beep', message0: '%{BKY_UL_BEEP}', ...stmt, colour: C.looks },
+
+  // ---- SPIKE Essential ----
+  {
+    type: 'es_run_for', message0: '%{BKY_UL_ES_RUN_FOR}',
+    args0: [PORT, DIR, num('N'), { type: 'field_dropdown', name: 'UNIT', options: [['%{BKY_UL_U_ROT}', 'rotations'], ['%{BKY_UL_U_DEG}', 'degrees'], ['%{BKY_UL_U_SEC}', 'seconds']] }],
+    inputsInline: true, ...stmt, colour: C.motion,
+  },
+  { type: 'es_start', message0: '%{BKY_UL_ES_START}', args0: [PORT, DIR], ...stmt, colour: C.motion },
+  { type: 'es_stop', message0: '%{BKY_UL_ES_STOP}', args0: [PORT], ...stmt, colour: C.motion },
+  { type: 'es_speed', message0: '%{BKY_UL_ES_SPEED}', args0: [PORT, num('P')], inputsInline: true, ...stmt, colour: C.motion },
+  { type: 'es_go_to', message0: '%{BKY_UL_ES_GO_TO}', args0: [PORT, num('POS')], inputsInline: true, ...stmt, colour: C.motion },
+  { type: 'es_position', message0: '%{BKY_UL_ES_POSITION}', args0: [PORT], output: 'Number', colour: C.motion },
+  {
+    type: 'es_show', message0: '%{BKY_UL_ES_SHOW}',
+    args0: [{ type: 'field_dropdown', name: 'IMG', options: IMAGE_OPTIONS }, { type: 'field_dropdown', name: 'COL', options: MATRIX_OPTIONS }],
+    ...stmt, colour: C.looks,
+  },
+  { type: 'es_pixel', message0: '%{BKY_UL_ES_PIXEL}', args0: [num('X'), num('Y'), { type: 'field_dropdown', name: 'COL', options: [...MATRIX_OPTIONS, ['%{BKY_UL_OFF}', 'off']] }], inputsInline: true, ...stmt, colour: C.looks },
+  { type: 'es_fill', message0: '%{BKY_UL_ES_FILL}', args0: [{ type: 'field_dropdown', name: 'COL', options: MATRIX_OPTIONS }], ...stmt, colour: C.looks },
+  { type: 'es_clear', message0: '%{BKY_UL_ES_CLEAR}', ...stmt, colour: C.looks },
+  { type: 'es_color_is', message0: '%{BKY_UL_ES_COLOR_IS}', args0: [{ type: 'field_dropdown', name: 'COL', options: SENSOR_OPTIONS }], output: 'Boolean', colour: C.sensing },
+  { type: 'es_hub_light', message0: '%{BKY_UL_ES_HUB_LIGHT}', args0: [{ type: 'field_dropdown', name: 'COL', options: [...MATRIX_OPTIONS, ['%{BKY_UL_OFF}', 'off']] }], ...stmt, colour: C.looks },
 ];
 
 let defined = false;
@@ -246,6 +305,41 @@ function defineGenerators() {
   py.forBlock.ul_say = (b) => `say(${py.valueToCode(b, 'T', PyOrder.NONE) || "''"})\n`;
   js.forBlock.ul_light = (b) => `robot.light('${b.getFieldValue('COL')}');\n`;
   py.forBlock.ul_light = (b) => `light('${b.getFieldValue('COL')}')\n`;
+  // SPIKE Essential
+  const q = (v) => `'${v}'`;
+  js.forBlock.es_run_for = (b) => {
+    const n = js.valueToCode(b, 'N', JsOrder.MULTIPLICATION) || '0';
+    return `robot.runFor(${q(b.getFieldValue('PORT'))}, ${b.getFieldValue('DIR')} * ${n}, ${q(b.getFieldValue('UNIT'))});\n`;
+  };
+  py.forBlock.es_run_for = (b) => {
+    const neg = b.getFieldValue('DIR') === '-1';
+    const n = py.valueToCode(b, 'N', neg ? PyOrder.UNARY_SIGN : PyOrder.NONE) || '0';
+    const unit = b.getFieldValue('UNIT');
+    return `motor_run(${q(b.getFieldValue('PORT'))}, ${neg ? '-' : ''}${n}${unit === 'rotations' ? '' : ', ' + q(unit)})\n`;
+  };
+  js.forBlock.es_start = (b) => `robot.start(${q(b.getFieldValue('PORT'))}, ${b.getFieldValue('DIR')});\n`;
+  py.forBlock.es_start = (b) => `motor_start(${q(b.getFieldValue('PORT'))}${b.getFieldValue('DIR') === '-1' ? ', -1' : ''})\n`;
+  js.forBlock.es_stop = (b) => `robot.stopMotor(${q(b.getFieldValue('PORT'))});\n`;
+  py.forBlock.es_stop = (b) => `motor_stop(${q(b.getFieldValue('PORT'))})\n`;
+  js.forBlock.es_speed = (b) => `robot.setSpeed(${q(b.getFieldValue('PORT'))}, ${jv(b, 'P')});\n`;
+  py.forBlock.es_speed = (b) => `motor_speed(${q(b.getFieldValue('PORT'))}, ${pv(b, 'P')})\n`;
+  js.forBlock.es_go_to = (b) => `robot.goTo(${q(b.getFieldValue('PORT'))}, ${jv(b, 'POS')});\n`;
+  py.forBlock.es_go_to = (b) => `motor_go_to(${q(b.getFieldValue('PORT'))}, ${pv(b, 'POS')})\n`;
+  js.forBlock.es_position = (b) => [`robot.position(${q(b.getFieldValue('PORT'))})`, JsOrder.FUNCTION_CALL];
+  py.forBlock.es_position = (b) => [`motor_position(${q(b.getFieldValue('PORT'))})`, PyOrder.FUNCTION_CALL];
+  js.forBlock.es_show = (b) => `robot.showImage(${q(b.getFieldValue('IMG'))}, ${q(b.getFieldValue('COL'))});\n`;
+  py.forBlock.es_show = (b) => `show_image(${q(b.getFieldValue('IMG'))}, ${q(b.getFieldValue('COL'))})\n`;
+  js.forBlock.es_pixel = (b) => `robot.pixel(${jv(b, 'X', '1')}, ${jv(b, 'Y', '1')}, ${q(b.getFieldValue('COL'))});\n`;
+  py.forBlock.es_pixel = (b) => `set_pixel(${pv(b, 'X', '1')}, ${pv(b, 'Y', '1')}, ${q(b.getFieldValue('COL'))})\n`;
+  js.forBlock.es_fill = (b) => `robot.fill(${q(b.getFieldValue('COL'))});\n`;
+  py.forBlock.es_fill = (b) => `fill(${q(b.getFieldValue('COL'))})\n`;
+  js.forBlock.es_clear = () => 'robot.clear();\n';
+  py.forBlock.es_clear = () => 'clear()\n';
+  js.forBlock.es_color_is = (b) => [`(robot.color() === ${q(b.getFieldValue('COL'))})`, JsOrder.EQUALITY];
+  py.forBlock.es_color_is = (b) => [`color() == ${q(b.getFieldValue('COL'))}`, PyOrder.RELATIONAL];
+  js.forBlock.es_hub_light = (b) => `robot.hubLight(${q(b.getFieldValue('COL'))});\n`;
+  py.forBlock.es_hub_light = (b) => `hub_light(${q(b.getFieldValue('COL'))})\n`;
+
   js.forBlock.ul_beep = () => 'robot.beep();\n';
   py.forBlock.ul_beep = () => 'beep()\n';
 }
@@ -294,14 +388,42 @@ const ALL_BLOCKS = {
 };
 const CAT_NAMES = { motion: 'CAT_MOTION', control: 'CAT_CONTROL', sensing: 'CAT_SENSING', operators: 'CAT_OPERATORS', looks: 'CAT_LOOKS' };
 
-/** A toolbox with only the blocks a mission allows (all if `allowed` is empty). */
-export function makeToolbox(allowed) {
+const ESSENTIAL_BLOCKS = {
+  motion: [
+    { kind: 'block', type: 'es_run_for', inputs: { N: shadowNum(1) } },
+    { kind: 'block', type: 'es_start' },
+    { kind: 'block', type: 'es_stop' },
+    { kind: 'block', type: 'es_speed', inputs: { P: shadowNum(50) } },
+    { kind: 'block', type: 'es_go_to', inputs: { POS: shadowNum(0) } },
+    { kind: 'block', type: 'es_position' },
+  ],
+  looks: [
+    { kind: 'block', type: 'es_show' },
+    { kind: 'block', type: 'es_pixel', inputs: { X: shadowNum(2), Y: shadowNum(2) } },
+    { kind: 'block', type: 'es_fill' },
+    { kind: 'block', type: 'es_clear' },
+    { kind: 'block', type: 'es_hub_light' },
+    { kind: 'block', type: 'ul_beep' },
+    { kind: 'block', type: 'ul_say', inputs: { T: { shadow: { type: 'text', fields: { TEXT: 'Hello!' } } } } },
+  ],
+  sensing: [
+    { kind: 'block', type: 'es_color_is' },
+    { kind: 'block', type: 'ul_timer' },
+  ],
+  control: ALL_BLOCKS.control,
+  operators: ALL_BLOCKS.operators,
+};
+const ES_CAT_NAMES = { motion: 'CAT_MOTORS', looks: 'CAT_LIGHT', sensing: 'CAT_SENSING', control: 'CAT_CONTROL', operators: 'CAT_OPERATORS' };
+
+/** A toolbox with only the blocks a mission allows (all if `allowed` is empty). kit: 'robot' or 'essential'. */
+export function makeToolbox(allowed, kit = 'robot') {
   const ok = (type) => !allowed || !allowed.length || allowed.includes(type);
+  const [set, names] = kit === 'essential' ? [ESSENTIAL_BLOCKS, ES_CAT_NAMES] : [ALL_BLOCKS, CAT_NAMES];
   const contents = [];
-  for (const [cat, blocks] of Object.entries(ALL_BLOCKS)) {
+  for (const [cat, blocks] of Object.entries(set)) {
     const list = blocks.filter((b) => ok(b.type));
     if (!list.length) continue;
-    contents.push({ kind: 'category', name: tr(M[CAT_NAMES[cat]]), colour: C[cat], contents: list });
+    contents.push({ kind: 'category', name: tr(M[names[cat]]), colour: C[cat], contents: list });
   }
   return { kind: 'categoryToolbox', contents };
 }
@@ -315,7 +437,7 @@ export function blocksToJs(ws) {
   return javascriptGenerator.finish(typeof code === 'string' ? code : '');
 }
 
-export function blocksToPython(ws) {
+export function blocksToPython(ws, kit = 'robot') {
   pythonGenerator.init(ws);
   const start = ws.getTopBlocks(false).find((b) => b.type === 'ul_start');
   let body = '';
@@ -325,7 +447,7 @@ export function blocksToPython(ws) {
   }
   // finish() adds imports for variables Blockly made; we don't use any.
   body = pythonGenerator.finish(body).replace(/^\s+/, '');
-  return 'from robot import *\n\n' + (body || '# …\n');
+  return `from ${kit === 'essential' ? 'essential' : 'robot'} import *\n\n` + (body || '# …\n');
 }
 
 export function hasProgram(ws) {

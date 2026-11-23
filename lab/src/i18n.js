@@ -97,6 +97,11 @@ const UI = {
   'color.green': { kk: 'жасыл', ru: 'зелёный', en: 'green' },
   'color.blue': { kk: 'көк', ru: 'синий', en: 'blue' },
   'color.yellow': { kk: 'сары', ru: 'жёлтый', en: 'yellow' },
+  'color.orange': { kk: 'сарғылт', ru: 'оранжевый', en: 'orange' },
+  'color.azure': { kk: 'көгілдір', ru: 'голубой', en: 'azure' },
+  'color.violet': { kk: 'күлгін', ru: 'фиолетовый', en: 'violet' },
+  'color.none': { kk: 'ештеңе', ru: 'ничего', en: 'nothing' },
+  'run.scenarioEnd': { kk: 'Сынақ аяқталды ({s} с).', ru: 'Испытание закончилось ({s} с).', en: 'The test run is over ({s} s).' },
 };
 
 export function t(key, vars) {

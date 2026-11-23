@@ -58,3 +58,15 @@ export function program(...list) {
   if (c) start.next = c;
   return { blocks: { languageVersion: 0, blocks: [start] } };
 }
+
+// ---- SPIKE Essential ----
+export const esRun = (port, dir, amount, unit = 'rotations') => st('es_run_for', { N: n(amount) }, { PORT: port, DIR: String(dir), UNIT: unit });
+export const esStart = (port, dir = 1) => st('es_start', {}, { PORT: port, DIR: String(dir) });
+export const esStop = (port) => st('es_stop', {}, { PORT: port });
+export const esSpeed = (port, p) => st('es_speed', { P: n(p) }, { PORT: port });
+export const esGoTo = (port, pos) => st('es_go_to', { POS: n(pos) }, { PORT: port });
+export const esShow = (img, color) => st('es_show', {}, { IMG: img, COL: color });
+export const esFill = (color) => st('es_fill', {}, { COL: color });
+export const esClear = () => st('es_clear');
+export const esColorIs = (c) => st('es_color_is', {}, { COL: c });
+export const esHubLight = (c) => st('es_hub_light', {}, { COL: c });
