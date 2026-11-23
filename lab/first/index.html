@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FIRST · USTEM Lab</title>
+  <link rel="icon" href="../../assets/logo-small.png" />
+  <link rel="stylesheet" href="../src/lab.css" />
+</head>
+<body class="lesson-page">
+  <div id="app"></div>
+  <script type="module">
+    import { mountLesson } from '../src/lesson.js';
+    import lesson from '../src/lessons/first.js';
+    mountLesson(document.getElementById('app'), lesson, {
+      home: '../',
+      logo: '../../deck/img/ustem-logo.png',
+      media: '../../lab-media/',
+      pyBase: new URL('../../pyodide/', location.href).href,
+    });
+  </script>
+</body>
+</html>
