@@ -1,0 +1,55 @@
+// Every course on the USTEM Lab list, in the order they are built. `href` is set once a course is ready.
+
+export const GROUPS = [
+  {
+    id: 'robotics',
+    title: { kk: 'Робототехника', ru: 'Робототехника', en: 'Robotics' },
+    courses: [
+      { id: 'first', icon: '🏆', href: './first/', title: 'FIRST', about: { kk: 'FIRST әлемі, құндылықтар және роботтың алғашқы бағдарламалары', ru: 'Мир FIRST, ценности и первые программы для робота', en: 'The world of FIRST, its values and a robot’s first programs' } },
+      { id: 'spike-essential', icon: '🧱', title: 'LEGO SPIKE Essential', about: { kk: 'Кішкентайларға арналған LEGO моделдері мен блоктар', ru: 'Модели LEGO и блоки для младших', en: 'LEGO models and blocks for younger students' } },
+      { id: 'spike-prime', icon: '🟨', title: 'LEGO SPIKE Prime', about: { kk: 'Хаб, моторлар, датчиктер, Python', ru: 'Хаб, моторы, датчики, Python', en: 'Hub, motors, sensors, Python' } },
+      { id: 'lego-cs-ai', icon: '🧠', title: 'LEGO CS & AI', about: { kk: 'Информатика және жасанды интеллект LEGO-мен', ru: 'Информатика и ИИ с LEGO', en: 'Computer science and AI with LEGO' } },
+      { id: 'fll-explore', icon: '🔭', title: 'FLL Explore', about: { kk: 'Модель, зерттеу, плакат', ru: 'Модель, исследование, плакат', en: 'Model, research, poster' } },
+      { id: 'fll-challenge', icon: '🏁', title: 'FLL Challenge', about: { kk: 'Робот ойыны, миссиялар, стратегия', ru: 'Игра роботов, миссии, стратегия', en: 'Robot game, missions, strategy' } },
+      { id: 'fll-future', icon: '🚀', title: 'FLL Future', about: { kk: 'FLL-дің жаңа форматы', ru: 'Новый формат FLL', en: 'The new FLL format' } },
+      { id: 'rev', icon: '🔩', title: 'REV', about: { kk: 'REV Robotics конструкторы және Control Hub', ru: 'Конструктор REV Robotics и Control Hub', en: 'REV Robotics building system and Control Hub' } },
+      { id: 'tetrix', icon: '🔧', title: 'TETRIX', about: { kk: 'TETRIX металл конструкторы', ru: 'Металлический конструктор TETRIX', en: 'TETRIX metal building system' } },
+      { id: 'gobilda', icon: '⚙️', title: 'goBILDA', about: { kk: 'goBILDA шассилері мен механизмдері', ru: 'Шасси и механизмы goBILDA', en: 'goBILDA chassis and mechanisms' } },
+      { id: '3d-printing', icon: '🖨️', title: { kk: 'FTC үшін 3D басып шығару', ru: '3D-печать для FTC', en: '3D printing for FTC' }, about: { kk: 'Модельдеу және басып шығару', ru: 'Моделирование и печать деталей', en: 'Designing and printing parts' } },
+      { id: 'cnc', icon: '🪚', title: { kk: 'FTC үшін CNC', ru: 'ЧПУ для FTC', en: 'CNC for FTC' }, about: { kk: 'Фрезерлеу және кесу', ru: 'Фрезеровка и резка деталей', en: 'Milling and cutting parts' } },
+      { id: 'programming', icon: '💻', title: { kk: 'Бағдарламалау', ru: 'Программирование', en: 'Programming' }, about: { kk: 'Блоктардан Python мен Java-ға дейін', ru: 'От блоков до Python и Java', en: 'From Blocks to Python and Java' } },
+      { id: 'ftc', icon: '🤖', title: 'FTC', about: { kk: 'FIRST Tech Challenge: матч, механизмдер, автономия', ru: 'FIRST Tech Challenge: матч, механизмы, автономка', en: 'FIRST Tech Challenge: match, mechanisms, autonomous' } },
+      { id: 'arduino', icon: '🔌', title: { kk: 'Arduino және электроника', ru: 'Arduino и электроника', en: 'Arduino and electronics' }, about: { kk: 'Тізбектер, датчиктер, микроконтроллер', ru: 'Схемы, датчики, микроконтроллер', en: 'Circuits, sensors, microcontroller' } },
+      { id: 'raspberry', icon: '🍓', title: { kk: 'Raspberry Pi және Linux', ru: 'Raspberry Pi и Linux', en: 'Raspberry Pi and Linux' }, about: { kk: 'Терминал, Python, GPIO', ru: 'Терминал, Python, GPIO', en: 'Terminal, Python, GPIO' } },
+      { id: 'ros', icon: '🛰️', title: 'ROS', about: { kk: 'Robot Operating System: түйіндер, топиктер', ru: 'Robot Operating System: узлы, топики', en: 'Robot Operating System: nodes, topics' } },
+      { id: 'drones-fpv', icon: '🚁', title: { kk: 'FPV дрондар', ru: 'Дроны FPV', en: 'FPV drones' }, about: { kk: 'Ұшу физикасы және басқару', ru: 'Физика полёта и пилотирование', en: 'Flight physics and piloting' } },
+      { id: 'drones-ai', icon: '🤖', title: { kk: 'ЖИ дрондар', ru: 'Дроны и ИИ', en: 'AI drones' }, about: { kk: 'Компьютерлік көру, автономды ұшу', ru: 'Компьютерное зрение, автономный полёт', en: 'Computer vision, autonomous flight' } },
+      { id: 'drone-missions', icon: '🎯', title: { kk: 'Дрон миссиялары', ru: 'Миссии дронов', en: 'Drone missions' }, about: { kk: 'Маршруттар және тапсырмалар', ru: 'Маршруты и задания', en: 'Routes and tasks' } },
+      { id: 'rockets', icon: '🚀', title: { kk: 'Зымырандар', ru: 'Ракеты', en: 'Rockets' }, about: { kk: 'Тарту күші, траектория, тұрақтылық', ru: 'Тяга, траектория, устойчивость', en: 'Thrust, trajectory, stability' } },
+      { id: 'cansats', icon: '🥫', title: 'CanSat', about: { kk: 'Банкадағы спутник', ru: 'Спутник в банке', en: 'A satellite in a can' } },
+      { id: 'cubesats', icon: '🛰️', title: 'CubeSat', about: { kk: 'Шағын спутниктер және орбита', ru: 'Малые спутники и орбита', en: 'Small satellites and orbits' } },
+      { id: 'rovers', icon: '🛞', title: { kk: 'Роверлер', ru: 'Роверы', en: 'Rovers' }, about: { kk: 'Бөгде планетадағы робот', ru: 'Робот на другой планете', en: 'A robot on another planet' } },
+      { id: 'battlebots', icon: '⚔️', title: 'Battle of Bots', about: { kk: 'Роботтар шайқасы', ru: 'Битва роботов', en: 'Robot combat' } },
+      { id: 'humanoids', icon: '🦿', title: { kk: 'Гуманоидтар', ru: 'Гуманоиды', en: 'Humanoids' }, about: { kk: 'Тепе-теңдік және жүріс', ru: 'Баланс и ходьба', en: 'Balance and walking' } },
+      { id: 'arms', icon: '🦾', title: { kk: 'Манипуляторлар', ru: 'Манипуляторы', en: 'Robot arms' }, about: { kk: 'Буындар, кинематика', ru: 'Звенья, кинематика', en: 'Joints and kinematics' } },
+      { id: 'future-race', icon: '🏎️', title: 'Future Race', about: { kk: 'Автономды жарыс көліктері', ru: 'Автономные гоночные машины', en: 'Autonomous race cars' } },
+    ],
+  },
+  {
+    id: 'science',
+    title: { kk: 'Ғылым', ru: 'Науки', en: 'Science' },
+    courses: [
+      { id: 'physics', icon: '⚛️', title: { kk: 'Физика', ru: 'Физика', en: 'Physics' }, about: { kk: 'Күш, қозғалыс, энергия', ru: 'Сила, движение, энергия', en: 'Force, motion, energy' } },
+      { id: 'chemistry', icon: '⚗️', title: { kk: 'Химия', ru: 'Химия', en: 'Chemistry' }, about: { kk: 'Заттар және реакциялар', ru: 'Вещества и реакции', en: 'Substances and reactions' } },
+      { id: 'biology', icon: '🧬', title: { kk: 'Биология', ru: 'Биология', en: 'Biology' }, about: { kk: 'Тірі жүйелер', ru: 'Живые системы', en: 'Living systems' } },
+    ],
+  },
+  {
+    id: 'aero',
+    title: { kk: 'Авиация', ru: 'Авиация', en: 'Aviation' },
+    courses: [
+      { id: 'aero-sports', icon: '🪂', title: { kk: 'Авиаспорт', ru: 'Авиаспорт', en: 'Aero sports' }, about: { kk: 'Авиамодельдер жарысы', ru: 'Соревнования авиамоделей', en: 'Model aircraft competitions' } },
+      { id: 'planes', icon: '✈️', title: { kk: 'Ұшақтар', ru: 'Самолёты', en: 'Planes' }, about: { kk: 'Көтеру күші және басқару', ru: 'Подъёмная сила и управление', en: 'Lift and control' } },
+    ],
+  },
+];

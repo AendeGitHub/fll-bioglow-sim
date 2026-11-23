@@ -44,5 +44,16 @@ export default defineConfig({
   preview: { headers: isolationHeaders, port: 4173 },
   worker: { format: 'es' },
   optimizeDeps: { exclude: ['pyodide'] },
-  build: { target: 'es2022', chunkSizeWarningLimit: 4000 },
+  build: {
+    target: 'es2022',
+    chunkSizeWarningLimit: 4000,
+    // The BIOGLOW simulator, plus USTEM Lab: the course list and one page per course.
+    rollupOptions: {
+      input: {
+        main: path.resolve('index.html'),
+        lab: path.resolve('lab/index.html'),
+        'lab-first': path.resolve('lab/first/index.html'),
+      },
+    },
+  },
 });
